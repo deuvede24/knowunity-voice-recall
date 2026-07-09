@@ -93,10 +93,14 @@ export function RecallFlow() {
   >({});
 
   useEffect(() => {
-    setShowPrimer(!getHasSeenPermissionPrimer());
-    setConfirmationModeState(getConfirmationMode());
-    setShowDiscoveryDot(!getHasOpenedModeSelector());
-    setPrimerReady(true);
+    const frame = requestAnimationFrame(() => {
+      setShowPrimer(!getHasSeenPermissionPrimer());
+      setConfirmationModeState(getConfirmationMode());
+      setShowDiscoveryDot(!getHasOpenedModeSelector());
+      setPrimerReady(true);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const concept = CONCEPTS[conceptIndex];
@@ -137,7 +141,7 @@ export function RecallFlow() {
   }
 
   function handleSkip() {
-    setOutcomes((o) => ({ ...o, [concept.id]: "practising" }));
+    // setOutcomes((o) => ({ ...o, [concept.id]: "practising" }));
     setStage("skipped");
   }
 
@@ -186,7 +190,7 @@ export function RecallFlow() {
         <>
           <RecallTopBar
             fraction={
-              (conceptIndex + (stage === "summary" ? 1 : 0)) / CONCEPTS.length
+              stage === "summary" ? 1 : (conceptIndex + 1) / CONCEPTS.length
             }
             term={
               stage === "summary"

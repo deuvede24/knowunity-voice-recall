@@ -30,6 +30,12 @@ export function SummaryScreen({
   outcomes: Record<string, ConceptOutcomeStatus>;
   onContinue: () => void;
 }) {
+  const shownConcepts = concepts.filter(
+    (concept) => outcomes[concept.id] !== undefined,
+  );
+
+  const hasEvidence = shownConcepts.length > 0;
+
   return (
     <motion.div
       variants={container}
@@ -40,45 +46,61 @@ export function SummaryScreen({
       <motion.div variants={item}>
         <Knowie expression="excited" size="lg" />
       </motion.div>
-      <motion.h1 variants={item} className="text-headline-s font-bold text-ink-primary">
-        You explained more than you thought you could.
+      <motion.h1
+        variants={item}
+        className="text-headline-s font-bold text-ink-primary"
+      >
+        {hasEvidence
+          ? "You explained more than you thought you could."
+          : "Nothing saved yet."}
       </motion.h1>
 
       <motion.div variants={item} className="flex w-full flex-col gap-200">
-        {concepts.map((concept) => {
-          const status = outcomes[concept.id] ?? "pending";
-          const gotIt = status === "gotIt";
-          return (
-            <div
-              key={concept.id}
-              className="flex items-center gap-200 rounded-800 bg-surface px-400 py-300 text-left"
-            >
-              <span
-                className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                style={{
-                  color: gotIt ? "var(--color-success-bold)" : "var(--color-coral-bold)",
-                }}
+        {concepts
+          .filter((concept) => outcomes[concept.id] !== undefined)
+          .map((concept) => {
+            const status = outcomes[concept.id] ?? "pending";
+            const gotIt = status === "gotIt";
+            return (
+              <div
+                key={concept.id}
+                className="flex items-center gap-200 rounded-800 bg-surface px-400 py-300 text-left"
               >
-                {gotIt ? <CheckIcon size={16} /> : <span className="text-caption-m">○</span>}
-              </span>
-              <span className="text-body-s font-semibold text-ink-primary">
-                {concept.term}
-              </span>
-              <span className="ml-auto text-caption-m text-ink-secondary">
-                {SUMMARY_LABELS[concept.id]}
-              </span>
-            </div>
-          );
-        })}
+                <span
+                  className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
+                  style={{
+                    color: gotIt
+                      ? "var(--color-success-bold)"
+                      : "var(--color-coral-bold)",
+                  }}
+                >
+                  {gotIt ? (
+                    <CheckIcon size={16} />
+                  ) : (
+                    <span className="text-caption-m">○</span>
+                  )}
+                </span>
+                <span className="text-body-s font-semibold text-ink-primary">
+                  {concept.term}
+                </span>
+                <span className="ml-auto text-caption-m text-ink-secondary">
+                  {SUMMARY_LABELS[concept.id]}
+                </span>
+              </div>
+            );
+          })}
       </motion.div>
 
       <motion.p variants={item} className="text-body-s text-ink-secondary">
-        These should feel easier to recall next time — because you explained
-        them yourself.
+        {hasEvidence
+          ? "These should feel easier to recall next time — because you explained them yourself."
+          : "Nothing was saved this time. You can always come back and give it another try."}
       </motion.p>
 
       <motion.div variants={item} className="mt-auto w-full">
-        <PrimaryButton onClick={onContinue}>Let&apos;s keep going</PrimaryButton>
+        <PrimaryButton onClick={onContinue}>
+          Let&apos;s keep going
+        </PrimaryButton>
       </motion.div>
     </motion.div>
   );
