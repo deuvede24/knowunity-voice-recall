@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M4 · Task 1 — Wireflow Blueprint · Knowunity × Yummy Labs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Poppins:wght@600;700;800;900&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:            #090C18;
+    --surface:       #141829;
+    --card:          #1C2035;
+    --card-alt:      #22242F;
+    --purple:        #9178E6;
+    --purple-dim:    rgba(145,120,230,0.12);
+    --purple-border: rgba(145,120,230,0.25);
+    --green:         #00C386;
+    --green-dim:     rgba(0,195,134,0.09);
+    --green-border:  rgba(0,195,134,0.22);
+    --blue:          #5FA0FC;
+    --blue-dim:      rgba(95,160,252,0.09);
+    --blue-border:   rgba(95,160,252,0.22);
+    --orange:        #FB7E5B;
+    --orange-dim:    rgba(251,126,91,0.09);
+    --orange-border: rgba(251,126,91,0.22);
+    --yellow:        #F5B53D;
+    --yellow-dim:    rgba(245,181,61,0.09);
+    --yellow-border: rgba(245,181,61,0.22);
+    --error:         #FF6B6B;
+    --error-dim:     rgba(255,107,107,0.09);
+    --text:          #F4F2FF;
+    --text-dim:      rgba(244,242,255,0.50);
+    --text-faint:    rgba(244,242,255,0.22);
+    --border:        rgba(255,255,255,0.07);
+    --r-xl: 32px; --r-lg: 24px; --r-md: 16px; --r-sm: 10px;
+  }
+
+  body { background:var(--bg); color:var(--text); font-family:'Inter', system-ui, sans-serif; width:1600px; margin:0 auto; padding:48px 0 120px; -webkit-font-smoothing:antialiased; }
+  .app-copy { font-family:'Poppins', sans-serif; font-weight:800; letter-spacing:-.01em; }
+  .label { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-faint); }
+  .tag { display:inline-flex; align-items:center; gap:6px; padding:5px 13px; border-radius:100px; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; }
+  .tag-purple { background:var(--purple-dim); color:var(--purple); border:1px solid var(--purple-border); }
+  .tag-blue   { background:var(--blue-dim);   color:var(--blue);   border:1px solid var(--blue-border); }
+  .tag-green  { background:var(--green-dim);  color:var(--green);  border:1px solid var(--green-border); }
+  .tag-orange { background:var(--orange-dim); color:var(--orange); border:1px solid var(--orange-border); }
+
+  .section { padding:0 60px; }
+  .divider { width:100%; height:1px; background:var(--border); margin:56px 0; }
+
+  /* compact header — no hero, no editorial */
+  .header { padding:0 60px 40px; border-bottom:1px solid var(--border); }
+  .header .label { margin-bottom:10px; }
+  .header h1 { font-size:26px; font-weight:800; letter-spacing:-.02em; color:var(--text); margin-bottom:8px; }
+  .header p { font-size:13.5px; color:var(--text-dim); max-width:820px; line-height:1.55; }
+
+  /* section labels — small, not editorial headlines */
+  .section-header { margin-bottom:28px; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .section-num { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--purple); background:var(--purple-dim); border:1px solid var(--purple-border); padding:4px 10px; border-radius:100px; }
+  .section-title-sm { font-size:18px; font-weight:800; color:var(--text); }
+  .section-note { font-size:12.5px; color:var(--text-dim); }
+
+  .screens-row { display:flex; gap:0; align-items:flex-start; overflow-x:auto; padding-bottom:8px; }
+  .screen-col { flex-shrink:0; width:270px; display:flex; flex-direction:column; gap:12px; }
+  .screen-col-head { display:flex; flex-direction:column; gap:4px; }
+  .screen-direction-name { font-size:13px; font-weight:700; color:var(--text); }
+  .screen-direction-name .tiny { color:var(--text-faint); font-weight:600; }
+
+  /* connector arrow between screens in a row */
+  .flow-arrow { flex-shrink:0; width:56px; display:flex; align-items:center; justify-content:center; padding-top:280px; }
+  .flow-arrow svg { opacity:.55; }
+  .flow-branch-label { position:absolute; }
+
+  /* phone frame — identical to Task 2 */
+  .phone { width:270px; height:585px; border-radius:32px; background:var(--bg); border:3px solid var(--card-alt); position:relative; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 20px 40px rgba(0,0,0,0.4); }
+  .phone-status { display:flex; justify-content:space-between; align-items:center; padding:14px 20px 6px; font-size:12px; font-weight:600; color:var(--text); }
+  .phone-body { flex:1; display:flex; flex-direction:column; padding:16px 18px 20px; gap:14px; overflow:hidden; }
+
+  .progress-bar { height:5px; border-radius:100px; background:var(--card-alt); overflow:hidden; }
+  .progress-bar .pb-fill { height:100%; background:var(--purple); border-radius:100px; }
+  .progress-label { font-size:10px; color:var(--text-faint); font-weight:600; letter-spacing:.04em; }
+
+  /* Knowie — real assets, always visible, expression-only difference */
+  .mascot-slot { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+  .mascot-slot img { width:64px; height:auto; display:block; }
+  .mascot-slot.lg img { width:88px; }
+  .mascot-slot.sm img { width:44px; }
+  .mascot-tag { font-size:7px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--purple); }
+
+  .mic-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; margin-top:auto; }
+  .mic-btn { width:64px; height:64px; border-radius:50%; background:var(--purple); display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 8px var(--purple-dim); }
+  .mic-btn.recording { background:var(--error); box-shadow:0 0 0 8px var(--error-dim); }
+  .mic-icon { width:20px; height:26px; }
+  .mic-hint { font-size:10.5px; color:var(--text-faint); font-weight:600; }
+
+  .waveform { display:flex; align-items:center; justify-content:center; gap:3px; height:24px; }
+  .waveform span { width:3px; border-radius:2px; background:var(--error); }
+
+  .btn-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .btn { font-size:11.5px; font-weight:700; padding:9px 14px; border-radius:100px; text-align:center; flex:1; }
+  .btn-primary { background:var(--purple); color:#fff; }
+  .btn-ghost { background:var(--card-alt); color:var(--text-dim); border:1px solid var(--border); }
+  .btn-text { background:transparent; color:var(--text-faint); text-decoration:underline; font-weight:600; padding:9px 4px; flex:none; }
+
+  .text-fallback { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-faint); font-weight:600; justify-content:center; }
+  .text-fallback::before { content:'⌨'; font-size:13px; }
+
+  .confirm-mode-selector { display:inline-flex; align-items:center; gap:4px; font-size:9.5px; font-weight:600; color:var(--text-faint); font-style:italic; }
+  .confirm-card { background:var(--card); border:1px solid var(--border); border-radius:var(--r-md); padding:12px 14px; font-size:12px; color:var(--text-dim); line-height:1.55; }
+
+  .coach-card { border-radius:var(--r-md); padding:14px 16px; display:flex; flex-direction:column; gap:8px; }
+  .coach-card.got-it { background:var(--green-dim); border:1px solid var(--green-border); }
+  .coach-card.partial { background:var(--yellow-dim); border:1px solid var(--yellow-border); }
+  .coach-card.off { background:var(--orange-dim); border:1px solid var(--orange-border); }
+  .coach-status { font-size:10px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; }
+  .got-it .coach-status { color:var(--green); }
+  .partial .coach-status { color:var(--yellow); }
+  .off .coach-status { color:var(--orange); }
+  .coach-copy { font-size:12.5px; color:var(--text); line-height:1.5; font-weight:500; }
+
+  .note-block { font-size:11.5px; color:var(--text-dim); line-height:1.5; }
+  .note-block strong { color:var(--text); font-weight:600; }
+
+  .topic-card { display:flex; align-items:center; gap:12px; padding:12px 14px; background:#232323; border-radius:24px; height:44px; }
+  .topic-card .tc-label { flex:1; font-size:13px; font-weight:700; color:#fff; }
+  .tc-icon-btn { width:20px; height:20px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .tc-mic-btn { width:28px; height:28px; border-radius:50%; background:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+  .rec-icon-btn { width:36px; height:36px; border-radius:50%; background:var(--card-alt); display:flex; align-items:center; justify-content:center; }
+  .rec-icon-btn.primary { background:var(--purple); }
+
+  .mic-selector-row { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:auto; }
+  .mic-selector-row .mic-col { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .transcript-chip-side { position:relative; top:14px; }
+
+  /* real bottom sheet, overlaid on the same idle screen */
+  .sheet-overlay { position:absolute; inset:0; background:rgba(9,12,24,0.72); display:flex; align-items:flex-end; }
+  .sheet { width:100%; background:var(--card); border-radius:24px 24px 0 0; padding:16px 18px 20px; border-top:1px solid var(--border); }
+  .sheet-grabber { width:32px; height:4px; background:var(--text-faint); border-radius:2px; margin:0 auto 14px; }
+  .sheet-title { font-size:14px; font-weight:800; color:var(--text); margin-bottom:12px; }
+  .sheet-option { display:flex; justify-content:space-between; align-items:center; padding:11px 2px; border-bottom:1px solid var(--border); font-size:12.5px; font-weight:600; color:var(--text); }
+  .sheet-option:last-of-type { border-bottom:none; }
+  .sheet-radio { width:15px; height:15px; border-radius:50%; border:2px solid var(--text-faint); flex-shrink:0; }
+  .sheet-radio.selected { border-color:var(--purple); background:var(--purple); }
+
+  .evidence-row-good { background:var(--green-dim); border:1px solid var(--green-border); border-radius:var(--r-sm); padding:8px 10px; font-size:11px; color:var(--text); }
+  .evidence-row-mid { background:var(--orange-dim); border:1px solid var(--orange-border); border-radius:var(--r-sm); padding:8px 10px; font-size:11px; color:var(--text); }
+
+  /* ── FLOW DIAGRAM (boxes + arrows, not prose) ── */
+  .flow-diagram { padding:32px 60px 8px; display:flex; flex-direction:column; align-items:center; }
+  .fd-box { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:10px 18px; font-size:12.5px; font-weight:700; color:var(--text); text-align:center; }
+  .fd-box.decision { background:var(--purple-dim); border-color:var(--purple-border); color:var(--purple); border-radius:100px; }
+  .fd-box.terminal { background:var(--green-dim); border-color:var(--green-border); color:var(--green); }
+  .fd-line { width:1px; height:22px; background:var(--text-faint); }
+  .fd-arrow { color:var(--text-faint); font-size:14px; line-height:1; }
+  .fd-branch-row { display:flex; align-items:flex-start; gap:0; }
+  .fd-branch-col { display:flex; flex-direction:column; align-items:center; padding:0 18px; position:relative; }
+  .fd-branch-connector { width:100%; height:22px; position:relative; }
+  .fd-branch-connector::before { content:''; position:absolute; top:0; left:50%; width:1px; height:12px; background:var(--text-faint); }
+  .fd-branch-top-line { height:1px; background:var(--text-faint); position:relative; top:0; }
+  .fd-label-inline { font-size:10px; color:var(--text-faint); font-weight:700; margin:2px 0; }
+
+  /* Knowie placeholder — exact Task 2 component */
+  .knowie-ph { border-radius:16px; background:var(--purple-dim); border:2px dashed var(--purple-border); display:flex; align-items:center; justify-content:center; text-align:center; font-size:8px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--purple); line-height:1.4; padding:4px; }
+  .mascot-slot .knowie-ph { width:64px; height:64px; }
+  .mascot-slot.lg .knowie-ph { width:88px; height:88px; font-size:9px; }
+  .mascot-slot.sm .knowie-ph { width:44px; height:44px; font-size:7px; }
+  .keyboard-ph { width:100%; padding:26px 12px; text-align:center; font-size:10.5px; font-weight:600; color:var(--text-faint); background:var(--card); border-top:1px solid var(--border); }
+  .exit-x { width:20px; height:20px; border-radius:50%; background:rgba(244,242,255,0.08); color:var(--text-dim); display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+  .session-bar { display:flex; align-items:center; gap:10px; }
+  .session-bar .progress-bar { flex:1; }
+  .principles-note { max-width:900px; margin:18px 60px 0; font-size:12px; color:var(--text-faint); line-height:1.6; font-style:italic; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="label">Knowunity × Yummy Labs · Module 4 · Task 1</div>
+  <h1>Full Flow — Wireflow Blueprint</h1>
+  <p>Information architecture, not a presentation. Extends the approved Module 3 Task 2 screens with the missing states and transitions — same components, same tokens, same tone. This becomes the visual reference for the Claude Code build.</p>
+</div>
+<div class="principles-note">Motion behaviour will be defined later during the interactive prototype in Claude Code. These are refinements only — architecture, screen order and interaction flow are preserved.</div>
+
+<!-- ══════════════ REAL FLOW DIAGRAM — boxes + arrows ══════════════ -->
+<div class="flow-diagram">
+  <div class="fd-box">Entry (Topic mic / Knowie suggestion)</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+  <div class="fd-box decision">First time?</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-branch-row">
+    <div class="fd-branch-col">
+      <div class="fd-label-inline">YES</div>
+      <div class="fd-box">Intro + Mic permission</div>
+      <div class="fd-line"></div><div class="fd-arrow">▼</div>
+    </div>
+    <div class="fd-branch-col">
+      <div class="fd-label-inline">NO — skip straight in</div>
+    </div>
+  </div>
+
+  <div class="fd-box">Concept (idle)</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-branch-row">
+    <div class="fd-branch-col"><div class="fd-box">Record</div></div>
+    <div class="fd-branch-col"><div class="fd-box">Type instead</div></div>
+    <div class="fd-branch-col"><div class="fd-box">Skip</div></div>
+  </div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-box decision">Confirmation mode?</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-branch-row">
+    <div class="fd-branch-col"><div class="fd-box">Transcript</div></div>
+    <div class="fd-branch-col"><div class="fd-box">Headline</div></div>
+    <div class="fd-branch-col"><div class="fd-box">None</div></div>
+  </div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-box">Knowie thinking</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-box decision">Coaching response</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-branch-row">
+    <div class="fd-branch-col"><div class="fd-box">Got it → Next concept</div></div>
+    <div class="fd-branch-col"><div class="fd-box">Almost there → Retry</div></div>
+    <div class="fd-branch-col"><div class="fd-box">Let's build on that → Retry</div></div>
+  </div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-label-inline">Repeat for concepts 2 → 3 → 4</div>
+  <div class="fd-line"></div><div class="fd-arrow">▼</div>
+
+  <div class="fd-box terminal">Concept Evidence summary → Continue learning</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══════════════ 01 ENTRY ══════════════ -->
+<section class="section">
+  <div class="section-header"><div class="section-num">01</div><div class="section-title-sm">Entry</div><div class="section-note">Two doors, same destination — extends Task 2 Entry screens directly.</div></div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">A — Manual</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body" style="align-items:center; gap:20px;">
+          <div class="app-copy" style="font-size:20px; color:var(--text); text-align:center; margin-top:12px;">Japanese</div>
+          <div style="font-size:11px; color:var(--text-dim); text-align:center; margin-top:-14px;">📅 In 1 day &nbsp; 🎯 Grade Goal: 2</div>
+          <div class="topic-card" style="width:100%;">
+            <div class="tc-label">Japanese Writing System</div>
+            <div class="tc-icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><line x1="8" y1="6" x2="21" y2="6" stroke="white" stroke-width="1.8"/><line x1="8" y1="12" x2="21" y2="12" stroke="white" stroke-width="1.8"/><line x1="8" y1="18" x2="21" y2="18" stroke="white" stroke-width="1.8"/><circle cx="4" cy="6" r="1.3" fill="white"/><circle cx="4" cy="12" r="1.3" fill="white"/><circle cx="4" cy="18" r="1.3" fill="white"/></svg></div>
+            <div class="tc-mic-btn"><svg width="11" height="14" viewBox="0 0 12 16" fill="none"><rect x="3" y="0" width="6" height="10" rx="3" fill="white"/><path d="M0.5 7.5C0.5 11 3 13.5 6 13.5C9 13.5 11.5 11 11.5 7.5" stroke="white" stroke-width="1.5"/></svg></div>
+          </div>
+          <div style="margin-top:auto; text-align:center; font-size:11px; color:var(--text-faint); max-width:220px;">Same mic, same place, always.</div>
+        </div>
+      </div>
+      <div class="note-block">Helena starts from the Topic card in Exam Plan — the mic lives there permanently.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">B — Knowie surfaces it</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div style="font-size:10px; color:var(--text-faint); font-weight:700;">FIX MISTAKES · 2ND MISS</div>
+          <div style="background:var(--card); border-radius:var(--r-sm); padding:10px 12px; font-size:12px; color:var(--text-dim); margin-top:4px;">You've missed "hiragana" twice</div>
+          <div style="margin-top:12px; background:var(--green-dim); border:1px solid var(--green-border); border-radius:var(--r-md); padding:16px; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center;">
+            <div class="mascot-slot"><div class="knowie-ph">KNOWIE<br>approving</div></div>
+            <div style="font-size:13px; font-weight:700; color:var(--text);">Want to explain it back to me?</div>
+            <div class="btn-row" style="width:100%;"><div class="btn btn-primary">Yes, let's try</div></div>
+            <div class="btn btn-text">Not now</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Knowie suggests Voice Recall only after the current learning block finishes — never mid-checkpoint.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">First-time intro + permission</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body" style="align-items:center; justify-content:center; gap:14px; text-align:center;">
+          <div class="mascot-slot lg"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+          <div style="font-size:13px; font-weight:700; color:var(--text); max-width:220px;">Voice Recall uses your microphone so you can explain out loud.</div>
+          <div style="font-size:11px; color:var(--text-dim); max-width:220px;">Knowie will show you a transcript at first, to help build confidence. You can change this later.</div>
+          <div class="btn-row" style="width:100%; margin-top:6px;"><div class="btn btn-primary">Allow microphone</div></div>
+          <div class="text-fallback">Type instead</div>
+        </div>
+      </div>
+      <div class="note-block">Shown once. Returning students skip straight to Concept 1.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ 02 THE RECALL ATTEMPT ══════════════ -->
+<section class="section">
+  <div class="section-header"><div class="section-num">02</div><div class="section-title-sm">The recall attempt</div><div class="section-note">Idle → selector sheet → record / type / skip → paused-review. Knowie stays visible throughout, expression only.</div></div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Idle — 1 of 4</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:20%;"></div></div><div class="exit-x">✕</div></div>
+          <div class="progress-label">TERM 1 OF 4</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div><div style="font-size:11px; color:var(--text-dim);">Explain in your own words:</div><div class="app-copy" style="font-size:16px; color:var(--text);">Hiragana</div></div>
+          </div>
+          <div style="flex:1;"></div>
+          <div class="mic-wrap" style="margin-top:0;">
+            <div class="mic-btn"><svg class="mic-icon" viewBox="0 0 24 32" fill="none"><rect x="7" y="1" width="10" height="18" rx="5" fill="white"/><path d="M2 15C2 21 6.5 25.5 12 25.5C17.5 25.5 22 21 22 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="25.5" x2="12" y2="31" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="mic-hint">Tap to speak</div>
+            <div class="confirm-mode-selector" style="position:relative; margin-top:4px;">Transcript <svg width="8" height="8" viewBox="0 0 24 24" fill="none" style="margin-left:2px;"><path d="M6 9L12 15L18 9" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"/></svg><span style="position:absolute; top:-3px; right:-10px; width:7px; height:7px; border-radius:50%; background:var(--purple); box-shadow:0 0 0 2px var(--bg);"></span></div>
+          </div>
+          <div style="width:100%; height:1px; background:var(--border); margin:6px 0;"></div>
+          <div style="display:flex; justify-content:space-around; width:100%;">
+            <div class="text-fallback">Type instead</div>
+            <div class="btn-text" style="text-decoration:underline;">Skip for now</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Transcript is a confidence check before coaching — a discreet preference beside the mic, not a CTA.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Tap "Transcript" → bottom sheet</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body" style="position:relative; padding:0;">
+          <div style="padding:16px 18px 0;">
+            <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:20%;"></div></div><div class="exit-x">✕</div></div>
+            <div class="progress-label" style="margin-top:6px;">TERM 1 OF 4</div>
+          </div>
+          <div class="sheet-overlay">
+            <div class="sheet">
+              <div class="sheet-grabber"></div>
+              <div class="sheet-title">Review before feedback</div>
+              <div class="sheet-option"><span>Transcript — what Knowie heard</span><div class="sheet-radio selected"></div></div>
+              <div class="sheet-option"><span>Headline — short summary</span><div class="sheet-radio"></div></div>
+              <div class="sheet-option"><span>None — go straight to coaching</span><div class="sheet-radio"></div></div>
+              <div class="btn-row" style="margin-top:12px;"><div class="btn btn-primary">Save</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Same Idle screen underneath, dimmed. Transcript / Headline / None are three states of one confirmation component.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Recording</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>listening</div></div>
+            <div style="font-size:11px; color:var(--text-dim);">Explain in your own words: <strong style="color:var(--text);">Hiragana</strong></div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+            <div class="waveform"><span style="height:8px;"></span><span style="height:18px;"></span><span style="height:26px;"></span><span style="height:14px;"></span><span style="height:22px;"></span><span style="height:10px;"></span><span style="height:18px;"></span></div>
+            <div style="font-size:11px; color:var(--text-faint); font-weight:600;">0:07</div>
+            <div class="mic-btn recording"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="6" y="5" width="4" height="14" rx="1" fill="white"/><rect x="14" y="5" width="4" height="14" rx="1" fill="white"/></svg></div>
+          </div>
+          <div class="btn-row"><div class="btn btn-ghost">Pause</div><div class="btn-text" style="flex:1; text-align:center;">Cancel</div></div>
+        </div>
+      </div>
+      <div class="note-block">One recording experience, three states: Idle → Recording → Paused.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Paused / Review</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div style="font-size:11px; color:var(--text-dim);">Explain in your own words: <strong style="color:var(--text);">Hiragana</strong></div>
+          </div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;">
+            <div class="mic-btn"><svg class="mic-icon" viewBox="0 0 24 32" fill="none"><rect x="7" y="1" width="10" height="18" rx="5" fill="white"/><path d="M2 15C2 21 6.5 25.5 12 25.5C17.5 25.5 22 21 22 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="25.5" x2="12" y2="31" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="mic-hint">0:12 · tap to continue</div>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:20px;">
+            <span style="display:flex; flex-direction:column; align-items:center; gap:4px;"><span class="rec-icon-btn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M8 5V19L19 12L8 5Z" fill="white"/></svg></span><span style="font-size:8.5px; color:var(--text-faint);">Play</span></span>
+            <span style="display:flex; flex-direction:column; align-items:center; gap:4px;"><span class="rec-icon-btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 7H19M9 7V5C9 4.5 9.5 4 10 4H14C14.5 4 15 4.5 15 5V7M8 7L8.7 19C8.7 19.5 9.2 20 9.7 20H14.3C14.8 20 15.3 19.5 15.3 19L16 7" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:8.5px; color:var(--text-faint);">Discard</span></span>
+            <span style="display:flex; flex-direction:column; align-items:center; gap:4px;"><span class="rec-icon-btn primary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M12 5L6 11M12 5L18 11" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:8.5px; color:var(--text-faint);">Send</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Same recording component, paused state. Send → Confirmation. No trimming, no editing.</div>
+    </div>
+
+  </div>
+
+  <div style="height:20px;"></div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Type instead</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:20%;"></div></div><div class="exit-x">✕</div></div>
+          <div class="progress-label">TERM 1 OF 4</div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div style="font-size:12px; color:var(--text-dim);">Explain in your own words: <strong style="color:var(--text);">Hiragana</strong></div>
+          </div>
+          <div style="flex:1; margin-top:14px; background:var(--card); border:1px solid var(--purple-border); border-radius:var(--r-md); padding:12px; font-size:12px; color:var(--text-dim);">Used for native Japanese words and grammar...<span style="opacity:.4;">|</span></div>
+        </div>
+        <div class="keyboard-ph">Keyboard component<br>from Design System</div>
+      </div>
+      <div class="note-block">Text fallback follows the same loop. Equal dignity with voice — same Send → Confirmation → Coaching path.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Skip</div></div>
+      <div class="phone" style="height:auto; min-height:260px;">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body" style="text-align:center;">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+            <div class="mascot-slot"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div style="font-size:14px; font-weight:700; color:var(--text); margin-top:6px;">Skipped for now</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Skip moves to the next concept. Skipped terms can be practised later.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ 03 CONFIRMATION ══════════════ -->
+<section class="section">
+  <div class="section-header"><div class="section-num">03</div><div class="section-title-sm">Confirmation before coaching</div><div class="section-note">Final, not editable. One action always: Continue.</div></div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-blue">Transcript</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="display:flex; align-items:center; gap:8px;"><div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div><div style="font-size:11px; color:var(--text-dim);">Here's what I heard</div></div>
+          <div class="confirm-card" style="margin-top:10px;">"You use hiragana for native Japanese words and grammar bits, like verb endings and particles."</div>
+          <div class="btn-row" style="margin-top:auto;"><div class="btn btn-primary">Continue</div></div>
+        </div>
+      </div>
+      <div class="note-block">Transcript confirms before coaching — final, not editable.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-purple">Headline</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="display:flex; align-items:center; gap:8px;"><div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div><div style="font-size:11px; color:var(--text-dim);">You explained</div></div>
+          <div class="confirm-card" style="margin-top:10px; background:var(--purple-dim); border-color:var(--purple-border);">Hiragana used for native words and grammar.</div>
+          <div class="btn-row" style="margin-top:auto;"><div class="btn btn-primary">Continue</div></div>
+        </div>
+      </div>
+      <div class="note-block">Same confirmation component, headline state.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-green">None</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body"><div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div><div style="flex:1; display:flex; align-items:center; justify-content:center;"><div style="font-size:11px; color:var(--text-faint); text-align:center;">No confirmation layer.<br>Send → Thinking, directly.</div></div></div>
+      </div>
+      <div class="note-block">Same confirmation component, no-confirmation state. Free choice, never an unlock.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ 04 THINKING → COACHING ══════════════ -->
+<section class="section">
+  <div class="section-header"><div class="section-num">04</div><div class="section-title-sm">Thinking → Coaching</div><div class="section-note">Internal states never reach the student — only the copy does.</div></div>
+  <div class="note-block" style="max-width:820px; margin-bottom:24px;">The coaching should feel like a teacher helping Helena think, not like an AI grading an answer. The response should: acknowledge something Helena already did well; point to one missing idea; encourage another attempt. Avoid giving the complete answer unless Helena has exhausted the retries.</div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Thinking</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>thinking</div></div>
+            <div><div style="font-size:11px; color:var(--text-dim);">Explain in your own words:</div><div class="app-copy" style="font-size:16px; color:var(--text);">Hiragana</div></div>
+          </div>
+          <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:13px; font-weight:600; color:var(--text-dim); font-style:italic;">Let me think...</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">~1–1.5s mocked. Motion: bob + crossfade thinking ↔ questioning.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-blue">Got it</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div class="mascot-slot sm" style="align-self:flex-start;"><div class="knowie-ph">KNOWIE<br>excited</div></div>
+          <div style="flex:1;"></div>
+          <div class="coach-card got-it"><div class="coach-status">✓</div><div class="coach-copy">Exactly.<br><br>You connected hiragana to grammar and verb endings, not just the name.</div></div>
+          <div class="btn-row"><div class="btn btn-primary">Continue</div></div>
+        </div>
+      </div>
+      <div class="note-block">Never shown as a label.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-purple">Almost there</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div class="mascot-slot sm" style="align-self:flex-start;"><div class="knowie-ph">KNOWIE<br>questioning</div></div>
+          <div style="flex:1;"></div>
+          <div class="coach-card partial"><div class="coach-status">✨</div><div class="coach-copy">Nice, you're really close.<br><br>You already explained that hiragana is used for native words.<br><br>Now think about when you'd actually use it.</div></div>
+          <div class="btn-row"><div class="btn btn-primary">Try again</div></div>
+        </div>
+      </div>
+      <div class="note-block">One coaching component, three outcomes. Coaching prompt, never the answer handed over. → Retry.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-orange">Let's build on that</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar" style="margin-bottom:2px;"><div class="progress-bar" style="width:60px; flex:none;"><div class="pb-fill" style="width:20%;"></div></div><div style="flex:1;"></div><div class="exit-x">✕</div></div>
+          <div class="mascot-slot sm" style="align-self:flex-start;"><div class="knowie-ph">KNOWIE<br>determined</div></div>
+          <div style="flex:1;"></div>
+          <div class="coach-card off"><div class="coach-status">💭</div><div class="coach-copy">Good start.<br><br>You spotted part of the idea.<br><br>Now focus on what makes hiragana different from katakana.</div></div>
+          <div class="btn-row"><div class="btn btn-primary">Try again</div></div>
+        </div>
+      </div>
+      <div class="note-block">Never "failed." Always building forward. → Retry.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ 05 RETRY / NEXT / SUMMARY ══════════════ -->
+<section class="section">
+  <div class="section-header"><div class="section-num">05</div><div class="section-title-sm">Retry, next concepts, summary</div><div class="section-note">Same loop repeats for concepts 2→4, then closes on the approved Concept Evidence screen.</div></div>
+
+  <div class="screens-row">
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Retry — reminder visible</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:20%;"></div></div><div class="exit-x">✕</div></div>
+          <div class="progress-label">TERM 1 OF 4 · RETRY</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div><div style="font-size:11px; color:var(--text-dim);">Explain in your own words:</div><div class="app-copy" style="font-size:16px; color:var(--text);">Hiragana</div></div>
+          </div>
+          <div style="font-size:10.5px; color:var(--orange); font-weight:600; margin-top:6px;">Reminder: When would you use it?</div>
+          <div style="flex:1;"></div>
+          <div class="mic-wrap" style="margin-top:0;">
+            <div class="mic-btn"><svg class="mic-icon" viewBox="0 0 24 32" fill="none"><rect x="7" y="1" width="10" height="18" rx="5" fill="white"/><path d="M2 15C2 21 6.5 25.5 12 25.5C17.5 25.5 22 21 22 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="25.5" x2="12" y2="31" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="mic-hint">Tap to try again</div>
+            <div style="font-size:9.5px; color:var(--text-faint); font-style:italic; margin-top:2px;">Take your time. I'm listening.</div>
+            <div class="confirm-mode-selector" style="position:relative; margin-top:4px;">Transcript <svg width="8" height="8" viewBox="0 0 24 24" fill="none" style="margin-left:2px;"><path d="M6 9L12 15L18 9" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+          </div>
+          <div style="width:100%; height:1px; background:var(--border); margin:6px 0;"></div>
+          <div style="display:flex; justify-content:space-around; width:100%;">
+            <div class="text-fallback">Type instead</div>
+            <div class="btn-text" style="text-decoration:underline;">Skip for now</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Retry reuses the same Concept screen — a short Reminder now visible, not a full explanation.</div>
+      <div class="note-block">After Try again, the coaching card dismisses and the same concept returns with a short Reminder before recording.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Next concept — 2 of 4</div></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:40%;"></div></div><div class="exit-x">✕</div></div>
+          <div class="progress-label">TERM 2 OF 4</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="mascot-slot sm"><div class="knowie-ph">KNOWIE<br>standby</div></div>
+            <div><div style="font-size:11px; color:var(--text-dim);">Explain in your own words:</div><div class="app-copy" style="font-size:16px; color:var(--text);">Katakana</div></div>
+          </div>
+          <div style="flex:1;"></div>
+          <div class="mic-wrap" style="margin-top:0;">
+            <div class="mic-btn"><svg class="mic-icon" viewBox="0 0 24 32" fill="none"><rect x="7" y="1" width="10" height="18" rx="5" fill="white"/><path d="M2 15C2 21 6.5 25.5 12 25.5C17.5 25.5 22 21 22 15" stroke="white" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="25.5" x2="12" y2="31" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="mic-hint">Tap to speak</div>
+            <div class="confirm-mode-selector" style="position:relative; margin-top:4px;">Transcript <svg width="8" height="8" viewBox="0 0 24 24" fill="none" style="margin-left:2px;"><path d="M6 9L12 15L18 9" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+          </div>
+          <div style="width:100%; height:1px; background:var(--border); margin:6px 0;"></div>
+          <div style="display:flex; justify-content:space-around; width:100%;">
+            <div class="text-fallback">Type instead</div>
+            <div class="btn-text" style="text-decoration:underline;">Skip for now</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Concepts 2–4 reuse the exact same loop as Concept 1 — same Knowie position, same mic position, same Transcript/Type/Skip placement. Chip already reflects saved preference — no dot. <strong>Outcome: improved after coaching.</strong></div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><div class="screen-direction-name">Concepts 3 &amp; 4 — compact</div></div>
+      <div class="phone" style="height:auto; min-height:300px;">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="session-bar"><div class="progress-bar"><div class="pb-fill" style="width:60%;"></div></div><div class="exit-x">✕</div></div>
+          <div class="progress-label">TERM 3 OF 4</div>
+          <div class="app-copy" style="font-size:17px; color:var(--text); margin-top:8px;">Furigana</div>
+          <div class="evidence-row-mid" style="margin-top:8px; display:inline-block;">○ Skipped for now</div>
+          <div style="margin-top:14px; border-top:1px solid var(--border); padding-top:14px;">
+            <div class="progress-label">TERM 4 OF 4</div>
+            <div class="app-copy" style="font-size:15px; color:var(--text); margin-top:8px;">Why three writing systems?</div>
+            <div style="font-size:10.5px; color:var(--text-faint); margin-top:6px;">Not started yet</div>
+          </div>
+        </div>
+      </div>
+      <div class="note-block">Concepts 2–4 intentionally reuse the exact same interaction loop as Concept 1. They are shown in a compact form only to avoid repeating identical screens.</div>
+    </div>
+
+    <div class="flow-arrow"><svg width="32" height="20" viewBox="0 0 32 20"><path d="M0 10H26M26 10L18 3M26 10L18 17" stroke="var(--text-faint)" stroke-width="1.6" fill="none"/></svg></div>
+
+    <div class="screen-col">
+      <div class="screen-col-head"><span class="tag tag-green">Concept Evidence</span></div>
+      <div class="phone">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="phone-body">
+          <div class="mascot-slot" style="margin-top:8px;"><div class="knowie-ph">KNOWIE<br>excited</div></div>
+          <div class="app-copy" style="font-size:17px; color:var(--text); text-align:center; line-height:1.3;">You explained more than you thought you could.</div>
+          <div style="display:flex; flex-direction:column; gap:6px; margin-top:6px;">
+            <div class="evidence-row-good">✓ Hiragana → your own words</div>
+            <div class="evidence-row-good">✓ Katakana → your own words</div>
+            <div class="evidence-row-mid">○ Furigana → still practising</div>
+          </div>
+          <div style="font-size:10.5px; color:var(--text-faint); text-align:center; margin-top:4px;">These should feel easier to recall next time — because you explained them yourself.</div>
+          <div class="btn-row" style="margin-top:auto;"><div class="btn btn-primary">Let's keep going</div></div>
+        </div>
+      </div>
+      <div class="note-block">CTA returns Helena to Exam Plan. Felt Mastery — skipped concepts stay available, never listed as mistakes.</div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

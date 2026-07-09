@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — sourced exactly from design.md. Do not add/approximate
+ * values here. Text-color tokens use an "ink" prefix (not "text") so the
+ * generated Tailwind utilities read as `text-ink-primary` rather than the
+ * doubled-up `text-text-primary`.
+ *
+ * Typography: Tailwind v4 theme vars only carry size/line-height/letter-
+ * spacing. Font *weight* is applied per-component with Tailwind's own
+ * font-weight utilities, per this table (design.md):
+ *   display-xl    900 (Bold)
+ *   headline-xl   900 (Bold)
+ *   headline-s    900 (Bold)
+ *   headline-xs   400 (Regular)
+ *   body-m        600 (SemiBold) — design.md's only Body M variant is Bold
+ *   body-s        600 (SemiBold, buttons/UI) or 400 (Regular, per-instance)
+ *   caption-m     400 (Regular)
+ *   caption-s     400 (Regular)
+ */
+:root {
+  color-scheme: dark;
+
+  /* Surface / background */
+  --color-surface: #22242f;
+  --color-inverse: #f4f2ff;
+
+  /* Base app background: reuses the documented text/inverse token (#090c18).
+     Confirmed by sampling every reference screenshot (rgb(9,11,24) in each) —
+     not a new/invented value. */
+  --color-app-bg: #090c18;
+
+  /* Text ("ink") */
+  --color-ink-primary: #f4f2ff;
+  --color-ink-secondary: rgba(245, 243, 255, 0.68);
+  --color-ink-disabled: rgba(255, 255, 255, 0.4);
+  --color-ink-inverse: #090c18;
+
+  /* Interactive (primary button) */
+  --color-interactive-primary: #f4f2ff;
+  --color-interactive-onprimary: #090c18;
+
+  /* Feedback / accent */
+  --color-success-bold: #00c386;
+  --color-success-onbold: #0a1f18;
+  --color-error-bold: #ff6b6b;
+  --color-error-onbold: #2a0808;
+  --color-blue-bold: #5fa0fc;
+  --color-blue-onbold: #06173b;
+  --color-pro-bold: #f5b53d;
+  --color-pro-onbold: #2a1d04;
+  --color-coral-bold: #fb7e5b;
+  /* Recovered, not in the original design.md extraction — sampled from the
+     reference screenshots (progress bar, Knowie badge, discovery dot) and
+     confirmed with the product owner. See design.md "accent/purple/bold". */
+  --color-purple-bold: #8f7bdc;
+
+  /* Spacing scale */
+  --space-050: 2px;
+  --space-100: 4px;
+  --space-150: 6px;
+  --space-200: 8px;
+  --space-300: 12px;
+  --space-400: 16px;
+  --space-600: 24px;
+
+  /* Radius */
+  --radius-full: 9999px;
+  --radius-800: 32px;
+
+  /* Icon sizes */
+  --icon-medium: 16px;
+  --icon-large: 24px;
+  --icon-250: 20px;
+
+  /* Type — Greed VF is unavailable in this project (no font files provided);
+     using the platform system-UI stack at design.md's exact scale instead. */
+  --font-system:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+@theme inline {
+  --color-surface: var(--color-surface);
+  --color-inverse: var(--color-inverse);
+  --color-app-bg: var(--color-app-bg);
+
+  --color-ink-primary: var(--color-ink-primary);
+  --color-ink-secondary: var(--color-ink-secondary);
+  --color-ink-disabled: var(--color-ink-disabled);
+  --color-ink-inverse: var(--color-ink-inverse);
+
+  --color-interactive-primary: var(--color-interactive-primary);
+  --color-interactive-onprimary: var(--color-interactive-onprimary);
+
+  --color-success-bold: var(--color-success-bold);
+  --color-success-onbold: var(--color-success-onbold);
+  --color-error-bold: var(--color-error-bold);
+  --color-error-onbold: var(--color-error-onbold);
+  --color-blue-bold: var(--color-blue-bold);
+  --color-blue-onbold: var(--color-blue-onbold);
+  --color-pro-bold: var(--color-pro-bold);
+  --color-pro-onbold: var(--color-pro-onbold);
+  --color-coral-bold: var(--color-coral-bold);
+  --color-purple-bold: var(--color-purple-bold);
+
+  --spacing-050: var(--space-050);
+  --spacing-100: var(--space-100);
+  --spacing-150: var(--space-150);
+  --spacing-200: var(--space-200);
+  --spacing-300: var(--space-300);
+  --spacing-400: var(--space-400);
+  --spacing-600: var(--space-600);
+
+  --radius-full: var(--radius-full);
+  --radius-800: var(--radius-800);
+
+  --font-sans: var(--font-system);
+
+  /* Typography scale (design.md) — size / line-height / letter-spacing only */
+  --text-display-xl: 76px;
+  --text-display-xl--line-height: 76px;
+  --text-display-xl--letter-spacing: -1px;
+  --text-headline-xl: 44px;
+  --text-headline-xl--line-height: 44px;
+  --text-headline-xl--letter-spacing: -1px;
+  --text-headline-s: 21px;
+  --text-headline-s--line-height: 24px;
+  --text-headline-xs: 18px;
+  --text-headline-xs--line-height: 20px;
+  --text-headline-xs--letter-spacing: 1px;
+  --text-body-m: 18px;
+  --text-body-m--line-height: 24px;
+  --text-body-m--letter-spacing: 1px;
+  --text-body-s: 15px;
+  --text-body-s--line-height: 20px;
+  --text-body-s--letter-spacing: 1px;
+  --text-caption-m: 12px;
+  --text-caption-m--line-height: 16px;
+  --text-caption-m--letter-spacing: 1px;
+  --text-caption-s: 9px;
+  --text-caption-s--line-height: 12px;
+  --text-caption-s--letter-spacing: 1px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-app-bg);
+  color: var(--color-ink-primary);
+  font-family: var(--font-system);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* Visible focus state for keyboard / assistive tech, per prototype-rules.md accessibility baseline */
+:focus-visible {
+  outline: 2px solid var(--color-blue-bold);
+  outline-offset: 2px;
+}
