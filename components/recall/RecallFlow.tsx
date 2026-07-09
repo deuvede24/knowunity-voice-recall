@@ -25,6 +25,7 @@ import {
 import { gentle } from "@/lib/motion";
 
 import { ConceptHeader } from "./ConceptHeader";
+import { BottomActionBar } from "./BottomActionBar";
 import { RecordingArea } from "./RecordingArea";
 import { ConfirmationLayer } from "./ConfirmationLayer";
 import { ThinkingCard } from "./ThinkingCard";
@@ -264,7 +265,11 @@ export function RecallFlow() {
                   transition={gentle}
                   className="absolute inset-0 flex flex-col"
                 >
-                <div className="flex flex-1 flex-col items-center justify-center gap-400 px-400 pb-400">
+                {/* Mic stays centered in its own flex-1 zone, sized off
+                    whatever space remains above the buttons — its position
+                    doesn't depend on the buttons row at all, so pinning that
+                    row near the bottom (below) can't shift the mic. */}
+                <div className="flex flex-1 flex-col items-center justify-center px-400">
                   <RecordingArea
                     phase={recordingPhase}
                     confirmationMode={confirmationMode}
@@ -277,8 +282,10 @@ export function RecallFlow() {
                     onDiscard={() => setRecordingPhase("idle")}
                     onSend={proceedAfterAnswer}
                   />
+                </div>
 
-                  <div className="flex items-center gap-400">
+                <BottomActionBar>
+                  <div className="flex items-center justify-center gap-400">
                     <TextButton
                       onClick={() => setTypeSheetOpen(true)}
                       className="underline"
@@ -289,7 +296,7 @@ export function RecallFlow() {
                       Skip for now
                     </TextButton>
                   </div>
-                </div>
+                </BottomActionBar>
               </motion.div>
             )}
 

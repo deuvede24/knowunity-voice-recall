@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import { PrimaryButton } from "@/components/Buttons";
+import { BottomActionBar } from "./BottomActionBar";
 import { CheckIcon, SparkleIcon, BubbleIcon } from "@/components/icons";
 import { gentle } from "@/lib/motion";
 import { COACHING_VISUALS, COACHING_CTA } from "@/lib/visuals";
@@ -31,21 +32,29 @@ export function CoachingCard({
   const Icon = ICONS[visuals.icon];
 
   return (
-    <div className="flex flex-1 flex-col justify-center gap-400 px-400 py-400">
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={gentle}
-        className="flex flex-col gap-200 rounded-800 px-400 py-400"
-        style={{ backgroundColor: `color-mix(in srgb, ${visuals.tintVar} 16%, transparent)` }}
-      >
-        <div style={{ color: visuals.tintVar }}>
-          <Icon size={18} />
-        </div>
-        <p className="text-body-m font-semibold text-ink-primary">{title}</p>
-        <p className="text-body-s text-ink-secondary">{body}</p>
-      </motion.div>
-      <PrimaryButton onClick={onAction}>{COACHING_CTA[band]}</PrimaryButton>
+    <div className="flex flex-1 flex-col px-400 pt-400">
+      {/* Card centered in its own flex-1 zone — its position doesn't depend
+          on the CTA below, so pinning it near the bottom (same pattern as
+          Confirmation and the recording composer) can't shift the card. */}
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={gentle}
+          className="flex w-full flex-col gap-200 rounded-800 px-400 py-400"
+          style={{ backgroundColor: `color-mix(in srgb, ${visuals.tintVar} 16%, transparent)` }}
+        >
+          <div style={{ color: visuals.tintVar }}>
+            <Icon size={18} />
+          </div>
+          <p className="text-body-m font-semibold text-ink-primary">{title}</p>
+          <p className="text-body-s text-ink-secondary">{body}</p>
+        </motion.div>
+      </div>
+
+      <BottomActionBar>
+        <PrimaryButton onClick={onAction}>{COACHING_CTA[band]}</PrimaryButton>
+      </BottomActionBar>
     </div>
   );
 }
