@@ -18,7 +18,7 @@ export function ThinkingCard() {
       transition={gentle}
       className="flex flex-1 flex-col items-center justify-center"
     >
-      <p className="text-body-s italic text-ink-secondary">Let me think...</p>
+      <p className="text-body-m font-semibold text-ink-primary">Let me think...</p>
     </motion.div>
   );
 }

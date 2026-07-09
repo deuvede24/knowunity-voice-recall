@@ -201,24 +201,37 @@ export function RecallFlow() {
             onExit={() => router.push("/")}
           />
 
-          {(stage === "recording" ||
-            stage === "thinking" ||
-            stage === "coaching") && (
+          {/* One persistent ConceptHeader instance across recording → confirmation
+              → thinking → coaching (rather than two conditionally-mounted
+              blocks) so React keeps the same DOM node instead of unmounting
+              and remounting it — that remount was one source of the layout
+              jump between confirmation and the surrounding stages. */}
+          {stage !== "skipped" && stage !== "summary" && (
             <ConceptHeader
               primaryText={
-                <>
-                  Explain in your own words:{" "}
-                  <span className="font-semibold text-ink-primary">
-                    {concept.term}
-                  </span>
-                </>
+                stage === "confirmation" ? (
+                  confirmationMode === "headline" ? (
+                    "You explained"
+                  ) : (
+                    "Here's what I heard"
+                  )
+                ) : (
+                  <>
+                    Explain in your own words:{" "}
+                    <span className="font-semibold text-ink-primary">
+                      {concept.term}
+                    </span>
+                  </>
+                )
               }
               expression={
                 stage === "coaching"
                   ? attempt.expression
                   : stage === "thinking"
                     ? "thinking"
-                    : "standby"
+                    : stage === "confirmation"
+                      ? "approving"
+                      : "standby"
               }
               animateBob={stage === "thinking"}
               reminder={
@@ -229,31 +242,28 @@ export function RecallFlow() {
             />
           )}
 
-          {stage === "confirmation" && (
-            <ConceptHeader
-              primaryText={
-                confirmationMode === "headline"
-                  ? "You explained"
-                  : "Here's what I heard"
-              }
-              expression="standby"
-            />
-          )}
-
           {/* No mode="wait": that would delay each stage's mount (and its
               own timers, e.g. the thinking delay) until the previous
               stage's exit animation fully finished, stacking extra latency
-              on top of the intended ~1.2s thinking delay. */}
-          <AnimatePresence>
-            {stage === "recording" && (
-              <motion.div
-                key="recording-stage"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={gentle}
-                className="flex flex-1 flex-col"
-              >
+              on top of the intended ~1.2s thinking delay. Without mode="wait"
+              the outgoing and incoming stage are briefly both mounted at
+              once — with normal-flow siblings that stacked their heights
+              and caused a visible jump, so every stage below is positioned
+              absolute inset-0 within this single relative/flex-1 box instead,
+              so they overlap in place rather than pushing each other in the
+              document flow. (Summary is intentionally left as-is: it's out
+              of scope for this pass.) */}
+          <div className="relative flex-1">
+            <AnimatePresence>
+              {stage === "recording" && !typeSheetOpen && (
+                <motion.div
+                  key="recording-stage"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={gentle}
+                  className="absolute inset-0 flex flex-col"
+                >
                 <div className="flex flex-1 flex-col items-center justify-center gap-400 px-400 pb-400">
                   <RecordingArea
                     phase={recordingPhase}
@@ -283,6 +293,22 @@ export function RecallFlow() {
               </motion.div>
             )}
 
+            {stage === "recording" && typeSheetOpen && (
+              <TypeInsteadSheet
+                key="type-instead-stage"
+                initialValue={concept.transcript}
+                onDismiss={() => setTypeSheetOpen(false)}
+                onSend={() => {
+                  // Typed answers skip Transcript/Headline confirmation
+                  // entirely and go straight to Thinking, regardless of
+                  // confirmationMode — there's nothing to confirm when
+                  // Helena just typed it herself.
+                  setTypeSheetOpen(false);
+                  setStage("thinking");
+                }}
+              />
+            )}
+
             {stage === "confirmation" && (
               <ConfirmationLayer
                 key="confirmation-stage"
@@ -301,7 +327,7 @@ export function RecallFlow() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex flex-1 flex-col"
+                className="absolute inset-0 flex flex-col"
               >
                 <ThinkingCard />
               </motion.div>
@@ -313,7 +339,7 @@ export function RecallFlow() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex flex-1 flex-col"
+                className="absolute inset-0 flex flex-col"
               >
                 <CoachingCard
                   band={attempt.band}
@@ -330,7 +356,7 @@ export function RecallFlow() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex flex-1 flex-col items-center justify-center gap-300"
+                className="absolute inset-0 flex flex-col items-center justify-center gap-300"
               >
                 <p className="text-body-m font-semibold text-ink-primary">
                   Skipped for now
@@ -346,18 +372,8 @@ export function RecallFlow() {
                 onContinue={() => router.push("/")}
               />
             )}
-          </AnimatePresence>
-
-          <TypeInsteadSheet
-            open={typeSheetOpen}
-            term={concept.term}
-            initialValue={concept.transcript}
-            onDismiss={() => setTypeSheetOpen(false)}
-            onSend={() => {
-              setTypeSheetOpen(false);
-              proceedAfterAnswer();
-            }}
-          />
+            </AnimatePresence>
+          </div>
         </>
       )}
     </PhoneShell>

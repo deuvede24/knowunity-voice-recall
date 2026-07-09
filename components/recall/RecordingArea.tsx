@@ -73,6 +73,7 @@ export function RecordingArea({
   onSend: () => void;
 }) {
   const [elapsed, setElapsed] = useState(0);
+  const [isReplaying, setIsReplaying] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const reduceMotion = useReducedMotion();
   const isLive = phase === "recording";
@@ -91,9 +92,20 @@ export function RecordingArea({
     }
   }, [phase]);
 
+  useEffect(() => {
+    if (!isReplaying) return;
+    const t = setTimeout(() => setIsReplaying(false), 1600);
+    return () => clearTimeout(t);
+  }, [isReplaying]);
+
+  const isAnimatingWaveform = isLive || isReplaying;
+
   return (
     <div className="flex flex-col items-center gap-200">
-      {/* Waveform + timer slot — empty in Idle, live in Recording, frozen in Paused. */}
+      {/* Waveform + timer slot — empty in Idle, live in Recording, frozen in
+          Paused (except during the mocked replay, which reuses the same
+          pulse in the purple/interactive tint to read as "listening back"
+          rather than "recording"). */}
       <div className="flex h-16 flex-col items-center justify-center gap-100">
         {phase !== "idle" && (
           <>
@@ -101,18 +113,20 @@ export function RecordingArea({
               {WAVEFORM_BARS.map((h, i) => (
                 <motion.span
                   key={i}
-                  className="w-1 rounded-full bg-error-bold"
+                  className={`w-1 rounded-full ${isReplaying ? "bg-purple-bold" : "bg-error-bold"}`}
                   style={{ height: h }}
-                  animate={isLive && !reduceMotion ? { scaleY: [1, 1.6, 1] } : { scaleY: 1 }}
+                  animate={isAnimatingWaveform && !reduceMotion ? { scaleY: [1, 1.6, 1] } : { scaleY: 1 }}
                   transition={
-                    isLive && !reduceMotion
+                    isAnimatingWaveform && !reduceMotion
                       ? { duration: 0.8, repeat: Infinity, repeatType: "reverse", delay: i * 0.06 }
                       : { duration: 0 }
                   }
                 />
               ))}
             </div>
-            <span className="text-caption-m text-ink-secondary">{formatTime(elapsed)}</span>
+            <span className="text-caption-m text-ink-secondary">
+              {isReplaying ? "Playing..." : formatTime(elapsed)}
+            </span>
           </>
         )}
       </div>
@@ -198,22 +212,30 @@ export function RecordingArea({
               className="flex items-center gap-400"
             >
               <ControlIcon
-                icon={<PlayIcon size={18} />}
-                label="Play"
-                ariaLabel="Play back (mocked)"
-                onClick={() => {}}
+                icon={isReplaying ? <PauseIcon size={18} /> : <PlayIcon size={18} />}
+                label={isReplaying ? "Playing" : "Play"}
+                ariaLabel={isReplaying ? "Playing back your recording" : "Play back your recording"}
+                onClick={() => {
+                  if (!isReplaying) setIsReplaying(true);
+                }}
               />
               <ControlIcon
                 icon={<MicIcon size={18} />}
                 label="Resume"
                 ariaLabel="Resume recording"
-                onClick={onResume}
+                onClick={() => {
+                  setIsReplaying(false);
+                  onResume();
+                }}
               />
               <ControlIcon
                 icon={<DiscardIcon size={18} />}
                 label="Discard"
                 ariaLabel="Discard and start again"
-                onClick={onDiscard}
+                onClick={() => {
+                  setIsReplaying(false);
+                  onDiscard();
+                }}
               />
             </motion.div>
           )}

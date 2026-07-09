@@ -66,16 +66,17 @@ export function ModeSelector({
       <button
         type="button"
         onClick={openSheet}
-        className="relative flex shrink-0 items-center gap-100 whitespace-nowrap rounded-full bg-surface px-200 py-150 text-caption-m font-semibold text-ink-secondary"
+        className="flex shrink-0 items-center gap-150 whitespace-nowrap rounded-full bg-surface py-150 pl-200 pr-300 text-caption-m font-semibold text-ink-secondary"
       >
+        {/* Only Transcript (the default mode) carries the discovery hint —
+            once Helena has picked Headline/None there's nothing left to
+            discover. Inset well inside the pill, like the Entry mic dot,
+            instead of straddling the corner/border. */}
+        {showDiscoveryDot && mode === "transcript" && (
+          <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-purple-bold" />
+        )}
         {MODE_LABEL[mode]}
         <ChevronDownIcon size={14} />
-        {showDiscoveryDot && (
-          <span
-            aria-hidden
-            className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-purple-bold"
-          />
-        )}
       </button>
 
       <BottomSheet open={open} onDismiss={() => setOpen(false)}>

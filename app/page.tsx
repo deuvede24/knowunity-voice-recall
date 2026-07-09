@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "motion/react";
 import { PhoneShell } from "@/components/PhoneShell";
 import { TopicTopBar } from "@/components/TopBar";
 import { BookIcon } from "@/components/icons";
 import { MicIcon } from "@/components/MicIcon";
 import { CheckpointPath } from "@/components/CheckpointPath";
 import { BottomNav } from "@/components/BottomNav";
-import { snappy } from "@/lib/motion";
 import { getHasSeenEntryMicDot, setHasSeenEntryMicDot } from "@/lib/storage";
 
 const CHECKPOINTS = [
@@ -50,13 +48,16 @@ export default function TopicScreen() {
             </span>
             <BookIcon size={20} className="shrink-0 text-purple-bold" />
           </div>
-          <motion.button
+          {/* Plain button + CSS active state, not motion.button/whileTap: on a
+              real phone (tested over the LAN IP, not desktop localhost)
+              Motion's pointer-event-driven tap gesture was swallowing the
+              tap before the native click could fire. A native button with a
+              CSS :active transform doesn't intercept the touch sequence. */}
+          <button
             type="button"
             onClick={enterRecall}
-            whileTap={{ scale: 0.94 }}
-            transition={snappy}
             aria-label="Practise Voice Recall for this topic"
-            className="relative flex h-11 w-11 shrink-0 items-center justify-center text-purple-bold"
+            className="relative flex h-11 w-11 shrink-0 items-center justify-center text-purple-bold transition-transform duration-100 active:scale-90"
           >
             <MicIcon size={24} />
             {showMicDot && (
@@ -65,7 +66,7 @@ export default function TopicScreen() {
                 className="absolute right-1 top-1 h-2 w-2 rounded-full bg-purple-bold"
               />
             )}
-          </motion.button>
+          </button>
         </div>
 
         <CheckpointPath checkpoints={CHECKPOINTS} />

@@ -103,10 +103,12 @@ export function DiscardIcon(props: IconProps) {
   );
 }
 
+/** Paper-plane send glyph — matches /public/images/sendT.svg's silhouette. */
 export function SendIcon(props: IconProps) {
   return (
-    <svg {...base(props)} strokeWidth={0} fill="currentColor">
-      <path d="M12 4l-1.4 1.4L16.2 11H4v2h12.2l-5.6 5.6L12 20l8-8-8-8Z" />
+    <svg {...base(props)}>
+      <path d="M21 3 3 10.5l7.5 3L21 3Z" />
+      <path d="M21 3 13.5 20.5l-3-7L21 3Z" />
     </svg>
   );
 }

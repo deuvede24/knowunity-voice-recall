@@ -31,7 +31,7 @@ export function CoachingCard({
   const Icon = ICONS[visuals.icon];
 
   return (
-    <div className="flex flex-1 flex-col justify-end gap-400 px-400 py-400">
+    <div className="flex flex-1 flex-col justify-center gap-400 px-400 py-400">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}

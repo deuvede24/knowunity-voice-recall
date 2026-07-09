@@ -24,16 +24,24 @@ export function ConfirmationLayer({
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
       transition={gentle}
-      className="flex flex-1 flex-col gap-400 px-400 py-400"
+      className="absolute inset-0 flex flex-col items-center justify-center gap-400 px-400 pt-200 pb-600"
     >
-      <div className="rounded-800 bg-surface px-400 py-400 text-body-s text-ink-primary">
-        {mode === "transcript" ? `"${transcript}"` : headline}
+      {/* Same box for both modes — fixed size range so Transcript's longer
+          text and Headline's one-liner feel like the same surface, not two
+          different layouts. Long text scrolls inside the box instead of
+          growing the page. Neutral surface + subtle border only — design
+          tokens, not the textBox.svg artwork or any saturated accent. */}
+      <div className="max-h-[280px] min-h-[160px] w-full overflow-y-auto rounded-800 border border-white/10 bg-surface px-400 py-400">
+        <p className="text-body-m text-ink-primary">
+          {mode === "transcript" ? `"${transcript}"` : headline}
+        </p>
       </div>
 
-      <div className="mt-auto">
-        <PrimaryButton onClick={onContinue}>Continue</PrimaryButton>
-      </div>
+      <PrimaryButton onClick={onContinue} className="w-full">
+        Continue
+      </PrimaryButton>
     </motion.div>
   );
 }
