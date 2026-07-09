@@ -59,7 +59,7 @@ export const CONCEPTS: Concept[] = [
         title: "You nailed it!",
         body: "You connected furigana to helping people read unfamiliar kanji.",
       },
-      reminder: "Think about the problem furigana solves for readers.",
+      reminder: "Reminder:Think about the problem furigana solves for readers.",
     },
     demoResolution: "retryThenGotIt",
   },

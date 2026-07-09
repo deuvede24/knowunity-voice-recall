@@ -142,7 +142,8 @@ export function RecallFlow() {
 
   function handleSkip() {
     // setOutcomes((o) => ({ ...o, [concept.id]: "practising" }));
-    setStage("skipped");
+    //setStage("skipped");
+    advanceToNextConceptOrSummary();
   }
 
   useEffect(() => {
