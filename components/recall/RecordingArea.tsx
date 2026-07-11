@@ -307,7 +307,7 @@ export function RecordingArea({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={soft}
-                    className="flex items-center justify-center gap-400"
+                    className="flex -translate-y-5 items-center justify-center gap-400"
                   >
                     <ControlIcon
                       size="xl"
@@ -333,7 +333,7 @@ export function RecordingArea({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={rowEntrance}
-                    className="flex items-center justify-center gap-400"
+                    className="flex -translate-y-5 items-center justify-center gap-400"
                   >
                     <ControlIcon
                       size="xl"
