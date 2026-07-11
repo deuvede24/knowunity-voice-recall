@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "motion/react";
 import { ChecklistIcon } from "./icons";
 
 export interface Checkpoint {
@@ -14,8 +17,18 @@ const ZIGZAG_HALF = 29.5;
  * (reference/checkpoints.svg), not a real interactive checkpoint system.
  * The first checkpoint reads as active (solid fill); the rest read as
  * upcoming (muted fill), matching the reference's active/upcoming states.
+ *
+ * `glowIndex` plays a single, non-looping attention pulse on one node (the
+ * contextual Voice Recall invitation's "checkpoint just completed" cue) —
+ * purely visual, no completion-state or persisted data changes.
  */
-export function CheckpointPath({ checkpoints }: { checkpoints: Checkpoint[] }) {
+export function CheckpointPath({
+  checkpoints,
+  glowIndex,
+}: {
+  checkpoints: Checkpoint[];
+  glowIndex?: number;
+}) {
   return (
     <div className="flex flex-col items-center">
       {checkpoints.map((checkpoint, index) => {
@@ -30,7 +43,16 @@ export function CheckpointPath({ checkpoints }: { checkpoints: Checkpoint[] }) {
               className="flex flex-col items-center"
               style={{ transform: `translateX(${offset}px)` }}
             >
-              <div className="flex h-[110px] w-[110px] items-center justify-center rounded-full border-8 border-white/10">
+              <div className="relative flex h-[110px] w-[110px] items-center justify-center rounded-full border-8 border-white/10">
+                {index === glowIndex && (
+                  <motion.div
+                    aria-hidden
+                    className="pointer-events-none absolute -inset-3 rounded-full bg-purple-bold"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 0.35, 0] }}
+                    transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
+                  />
+                )}
                 <div
                   className={`flex h-[88px] w-[88px] items-center justify-center rounded-full ${
                     isActive ? "bg-purple-bold" : "bg-white/10"

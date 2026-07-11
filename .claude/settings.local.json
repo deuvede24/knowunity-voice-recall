@@ -56,7 +56,9 @@
       "Bash(pkill -f \"npm run dev\")",
       "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node -e ' *)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/recall)",
-      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify3.js)"
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify3.js)",
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_modeselector.js)",
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_returning.js)"
     ]
   }
 }

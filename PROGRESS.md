@@ -4,6 +4,71 @@ Status snapshots, most recent first. See SPEC.md for the full build spec.
 
 ---
 
+## Session — 2026-07-11: Contextual Voice Recall invitation (Entry B replacement)
+
+Replaced the old, unwired Entry B prototype ("Fix Mistakes · 2nd miss" / "Yes,
+let's try") with the new contextual invitation, wired as the first-time entry
+point into Voice Active Recall.
+
+**What changed:**
+- `components/BottomSheet.tsx` — added two backward-compatible optional
+  props: `surfaceClassName` (default `"bg-surface"`, unchanged for every
+  existing caller) and `topOverlay` (renders behind the sheet, anchored to
+  its top edge). Default appearance for every other usage (ModeSelector,
+  etc.) is untouched.
+- `components/KnowieInviteSheet.tsx` — rewritten: new copy ("You're doing
+  great!" / reinforcement body / "Want to explain it in your own words?" /
+  **Let's try it** / **Not now**), green surface via
+  `surfaceClassName="bg-success-onbold"` (an existing design.md token, not a
+  new hex), Knowie passed via `topOverlay` so it peeks from behind the
+  sheet's top edge instead of sitting in the normal content flow. Primary
+  CTA reuses `PrimaryButton` unchanged; the secondary CTA is a local
+  `bg-white/10` pill scoped to this file only (per `ctaReference.svg`), not
+  a change to the shared `SecondaryButton`/`TextButton`.
+- `components/CheckpointPath.tsx` — added an optional `glowIndex` prop that
+  plays one non-looping opacity pulse (reusing `purple-bold`) on a single
+  node. No completion-state or persisted-data change; omitted by default.
+- `components/PhoneShell.tsx` — added `position: relative` (was previously
+  unpositioned) so `BottomSheet`'s `absolute inset-0` confines itself to the
+  390px phone frame instead of the browser viewport; purely structural, no
+  visual change on its own.
+- `app/page.tsx` — wired the automatic attention-cue sequence: the first
+  checkpoint node glows once, then the existing mic discovery dot pulses
+  once (both via declarative Motion `delay`, not manual state-stitching),
+  then the invitation opens automatically. Accepting it reuses the existing
+  `enterRecall()` navigation (same permission-primer-if-first-time path as
+  the manual mic entry); dismissing it just closes the sheet.
+- `components/PermissionPrimer.tsx` — added the one missing line ("Knowie
+  will show you a transcript first. You can change this later."); title,
+  subtitle, and body copy already matched and were left untouched.
+
+**Implemented for this pass — first-time path only:**
+The whole sequence (checkpoint glow → mic-dot pulse → sheet auto-opens)
+always plays on load. No persistence, no returning-user check, no local
+storage was added for it, by design (matches the task's explicit scope).
+
+**Future behavior — documented only, not implemented:**
+- After the first onboarding, the microphone (Entry A, next to the Topic
+  card) becomes the **permanent manual entry point** — the automatic
+  attention-cue sequence should not replay on every visit once a learner
+  has seen it once.
+- Knowie may recommend Voice Recall again after future meaningful learning
+  moments (not just the very first checkpoint), reusing the same contextual
+  invitation.
+- Future contextual invitations should reuse this same Entry layout
+  (`KnowieInviteSheet` + attention cue), but with **lighter returning-user
+  copy** ("Want to try that again?" style, not "You're doing great!"
+  first-time framing) before entering Voice Recall directly.
+- Returning learners should **skip onboarding** (`PermissionPrimer`)
+  entirely and enter Voice Recall directly at `concept_idle` — this already
+  works today via the existing `hasSeenPermissionPrimer` flag, but the new
+  contextual invitation's own "has this been shown before" gating still
+  needs to be built (a new persisted flag, analogous to
+  `hasSeenEntryMicDot`) before it can honor "first-time only" across
+  sessions rather than every page load.
+
+---
+
 ## Session — 2026-07-09: Entry screen + PermissionPrimer pass
 
 Scope was deliberately narrow: the Entry (Topic) screen and the first-time

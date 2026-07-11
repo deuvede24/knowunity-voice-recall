@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "motion/react";
 import { PhoneShell } from "@/components/PhoneShell";
 import { TopicTopBar } from "@/components/TopBar";
 import { BookIcon } from "@/components/icons";
 import { MicIcon } from "@/components/MicIcon";
 import { CheckpointPath } from "@/components/CheckpointPath";
 import { BottomNav } from "@/components/BottomNav";
-import { getHasSeenEntryMicDot, setHasSeenEntryMicDot } from "@/lib/storage";
+import { KnowieInviteSheet } from "@/components/KnowieInviteSheet";
+import {
+  getHasSeenEntryMicDot,
+  setHasSeenEntryMicDot,
+  getHasSeenPermissionPrimer,
+} from "@/lib/storage";
 
 const CHECKPOINTS = [
   { label: "Writing Fundamentals" },
@@ -16,9 +22,25 @@ const CHECKPOINTS = [
   { label: "Practice & Review" },
 ];
 
+// Total time for the contextual attention cue (checkpoint glow, then the
+// mic discovery dot pulse below) to finish before the invitation opens —
+// mocked timing, same pattern already used for the Thinking -> Coaching
+// delay in RecallFlow. First-time path only for this pass: it always plays
+// on load, no persistence/returning-user check yet (see PROGRESS.md).
+const ATTENTION_CUE_MS = 1700;
+
 export default function TopicScreen() {
   const router = useRouter();
   const [showMicDot, setShowMicDot] = useState(() => !getHasSeenEntryMicDot());
+  const [showInvite, setShowInvite] = useState(false);
+  // Onboarding already completed once -> the invitation uses the lighter
+  // returning-user copy (same flag PermissionPrimer itself is gated on).
+  const [isReturning] = useState(() => getHasSeenPermissionPrimer());
+
+  useEffect(() => {
+    const t = setTimeout(() => setShowInvite(true), ATTENTION_CUE_MS);
+    return () => clearTimeout(t);
+  }, []);
 
   function enterRecall() {
      if (showMicDot) {
@@ -61,18 +83,28 @@ export default function TopicScreen() {
           >
             <MicIcon size={24} />
             {showMicDot && (
-              <span
+              <motion.span
                 aria-hidden
                 className="absolute right-1 top-1 h-2 w-2 rounded-full bg-purple-bold"
+                initial={{ scale: 1 }}
+                animate={{ scale: [1, 1.7, 1] }}
+                transition={{ duration: 0.5, delay: 1, ease: "easeInOut" }}
               />
             )}
           </button>
         </div>
 
-        <CheckpointPath checkpoints={CHECKPOINTS} />
+        <CheckpointPath checkpoints={CHECKPOINTS} glowIndex={0} />
       </main>
 
       <BottomNav />
+
+      <KnowieInviteSheet
+        open={showInvite}
+        onDismiss={() => setShowInvite(false)}
+        onAccept={enterRecall}
+        isReturning={isReturning}
+      />
     </PhoneShell>
   );
 }

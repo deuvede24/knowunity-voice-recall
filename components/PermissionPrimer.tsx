@@ -42,6 +42,10 @@ export function PermissionPrimer({
         <p className="text-body-s text-ink-secondary">
           We need microphone access to get started.
         </p>
+
+        <p className="text-body-s text-ink-secondary">
+          Knowie will show you a transcript first. You can change this later.
+        </p>
       </div>
 
       <div className="mt-600 flex w-full flex-col items-center gap-300">
