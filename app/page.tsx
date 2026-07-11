@@ -22,12 +22,17 @@ const CHECKPOINTS = [
   { label: "Practice & Review" },
 ];
 
-// Total time for the contextual attention cue (checkpoint glow, then the
-// mic discovery dot pulse below) to finish before the invitation opens —
-// mocked timing, same pattern already used for the Thinking -> Coaching
-// delay in RecallFlow. First-time path only for this pass: it always plays
-// on load, no persistence/returning-user check yet (see PROGRESS.md).
-const ATTENTION_CUE_MS = 1700;
+// Total time for the contextual attention cue to finish before the
+// invitation opens — mocked timing, same pattern already used for the
+// Thinking -> Coaching delay in RecallFlow. First-time path only for this
+// pass: it always plays on load, no persistence/returning-user check yet
+// (see PROGRESS.md).
+//
+// The checkpoint glow (CheckpointPath: 0.15s delay + 0.6s = finishes 0.75s)
+// and this mic-dot pulse (starts 0.35s, finishes 0.85s) deliberately overlap
+// for ~0.4s so the two cues read as one gesture rather than two separate
+// beats; the sheet opens right as the later one (the pulse) finishes.
+const ATTENTION_CUE_MS = 900;
 
 export default function TopicScreen() {
   const router = useRouter();
@@ -88,7 +93,7 @@ export default function TopicScreen() {
                 className="absolute right-1 top-1 h-2 w-2 rounded-full bg-purple-bold"
                 initial={{ scale: 1 }}
                 animate={{ scale: [1, 1.7, 1] }}
-                transition={{ duration: 0.5, delay: 1, ease: "easeInOut" }}
+                transition={{ duration: 0.5, delay: 0.35, ease: "easeInOut" }}
               />
             )}
           </button>

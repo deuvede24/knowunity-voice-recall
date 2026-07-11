@@ -27,7 +27,14 @@ export function BottomSheet({
   return (
     <AnimatePresence>
       {open && (
-        <div className="absolute inset-0 z-20 flex items-end justify-center">
+        <div className="fixed inset-0 z-20 flex items-end justify-center">
+          {/* fixed (not absolute): PhoneShell is min-h-dvh and can render
+              taller than the viewport when its content overflows one
+              screen (e.g. the checkpoint path) — an absolutely-positioned
+              sheet would then bottom-anchor to that full scrollable page
+              instead of the visible screen, pushing the sheet (and its
+              CTAs) below the fold. Fixed anchors to the actual viewport
+              regardless, same fix already used by recall's BottomActionBar. */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -40,8 +47,10 @@ export function BottomSheet({
           {/* Shared positioning context for the optional top overlay: it sits
               behind the sheet (z-0) and is anchored to the sheet's own top
               edge, so the sheet's opaque background clips whatever portion
-              of it dips below that edge — the "peeking from behind" look. */}
-          <div className="relative z-10 w-full">
+              of it dips below that edge — the "peeking from behind" look.
+              max-w matches PhoneShell's own width so the sheet stays sized
+              to the phone frame rather than the full browser viewport. */}
+          <div className="relative z-10 w-full max-w-[390px]">
             {topOverlay && (
               <motion.div
                 aria-hidden

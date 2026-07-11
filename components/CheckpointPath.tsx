@@ -50,7 +50,7 @@ export function CheckpointPath({
                     className="pointer-events-none absolute -inset-3 rounded-full bg-purple-bold"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: [0, 0.35, 0] }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
+                    transition={{ duration: 0.6, delay: 0.15, ease: "easeInOut" }}
                   />
                 )}
                 <div
