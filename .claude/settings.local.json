@@ -45,7 +45,18 @@
       "Bash(curl -s http://localhost:9444/json/version)",
       "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --user-data-dir=/tmp/claude-1000/-home-dani-knowunity-sprint/9c42d2b9-dcba-46e5-9460-4265437d9a69/scratchpad/cdp_profile --remote-debugging-port=9444 --remote-allow-origins=* --window-size=390,844 about:blank)",
       "Bash(curl -s http://localhost:3000/recall)",
-      "Bash(grep -o '<body[^>]*>.\\\\{0,300\\\\}')"
+      "Bash(grep -o '<body[^>]*>.\\\\{0,300\\\\}')",
+      "Bash(node -e ' *)",
+      "Bash(npx playwright *)",
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify2.js)",
+      "Bash(python3 *)",
+      "Bash(NODE_PATH=/home/dani/aggity/ita-challenges-frontend/node_modules node *)",
+      "Bash(grep *)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(pkill -f \"npm run dev\")",
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/recall)",
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify3.js)"
     ]
   }
 }

@@ -91,47 +91,54 @@ Entry into `/recall`:
 - Persisted preference: `voiceRecall.confirmationMode` (`"transcript" | "headline" | "none"`), `voiceRecall.hasOpenedModeSelector` (boolean) in `localStorage`. Default `"transcript"`, dot shown until `hasOpenedModeSelector` becomes `true`.
 - Selector lives as a small chip beside the mic on `concept_idle` (matches reference: "Transcript ▾" chip under the mic). Opening it (tap) sets `hasOpenedModeSelector = true` immediately, regardless of whether the mode is changed — this permanently removes the purple dot.
 - Selecting a mode updates `confirmationMode` and is used for **all subsequent concepts and future sessions** (persisted, not per-concept).
-- `confirmation` state renders per mode:
-  - **Transcript** — "Here's what I heard" + full canned transcript text, one **Continue** CTA.
-  - **Headline** — "You explained" + one-line canned summary, one **Continue** CTA.
+- `confirmation` (a.k.a. **Review**) renders inline inside the composer's central slot — not a new screen — per mode:
+  - **Transcript** — "Here's what I heard" + full canned transcript text in a neutral, non-editable card.
+  - **Headline** — "You explained" + one-line canned summary in the same card.
   - **None** — skipped entirely; `paused`/typed-answer → `thinking` directly.
-- Never editable. Never a second CTA. Never a "wrong" framing.
+- Revised for this pass (was: "one Continue CTA... never a second CTA"): Review shows **two** actions below the card — **Start over** (left, returns to `concept_idle`/Idle so Helena can re-record from scratch) and a **green checkmark Continue** (right, `feedback/success/bold`, same icon-button family as Send — advances to `thinking`). This gives Helena an explicit way out of a bad take without abandoning the session via the top-bar exit; it does not make the transcript/headline itself editable, and there is still exactly one way forward (the green check).
+- Never editable. Never a "wrong" framing.
 
 ---
 
 ## 6. Recording control behavior
 
 The composer (question block + mic/waveform/controls) occupies a fixed
-position and fixed height across Idle / Recording / Paused — only the
-content inside each slot swaps, so nothing above or below it shifts.
+position and fixed height across Idle / Recording / Paused / Review — only
+the content inside the central slot swaps, so nothing above or below it
+shifts. All secondary circular controls (Discard/Replay/Send/Start
+over/Continue) are 56×56px touch targets; the large primary control stays
+80×80px.
 
 - **Idle** — large mic button, "Tap to speak". The Transcript/Headline/None
   selector chip lives here only, directly below the mic, small and discreet
   (e.g. "Transcript ▾"). The purple discovery dot shows only the very first
   time it's ever seen in the session, not on every concept.
 - **Tap to start** recording (per reference: large mic button, not
-  hold-to-talk — matches `recallAttempt.jpeg`). The large button becomes the
-  **Send** arrow icon at that point and **stays Send from then on** — it
-  never reverts to a mic glyph and never shows a pause glyph.
-- **Recording** — live red pulsing waveform + timer above the button
-  (motion-guide "Recording / listening state" pulse). Two small icon-circle
-  secondary controls below: **Pause**, **Discard** (trash). No plain-text
-  "Cancel" — Discard is the only dismiss action. The mode selector is not
-  shown here; the mode is already locked in for this attempt.
-- **Paused** — Send button unchanged. Waveform + timer freeze in place and
-  stay visible (no pulse). Three small icon-circle controls: **Play**
-  (mocked, no real audio), **Resume** (mic icon — continues recording from
-  where it paused), **Discard**. No small Send circle here; Send only lives
-  in the large composer button.
+  hold-to-talk — matches `recallAttempt.jpeg`).
+- Revised for this pass (was: "the large button becomes Send and stays Send
+  from then on"): the large button is **always Pause/Resume**, never Send.
+  **Recording** — live red pulsing waveform + timer above the button, then
+  one row: **Discard** (left) / **Pause** (large, red, pulsing, center) /
+  **Send** (right). Tapping the large button pauses; it does not send.
+- **Paused** — waveform + timer freeze in place and stay visible (no pulse).
+  One row: **Discard** (left) / **Replay** (mocked playback — timer restarts
+  at 0:00 and counts up to the recorded duration, waveform animates only
+  while playing, pausing replay freezes both, reaching the end auto-returns
+  to this Paused display) / **Resume** (large, mic icon, center — continues
+  recording from where it paused) / **Send** (right).
   - **Discard** — returns to `concept_idle` for the same concept, no
     confirmation dialog needed (discard = "start again," per
     prototype-rules.md).
-- Tapping the large **Send** button works identically in Recording and
-  Paused — ends the recording immediately and advances to `confirmation`.
+- **Send** is now a small icon-circle control (not the large button),
+  reachable identically from Recording and Paused. If `confirmationMode` is
+  `none`, Send advances straight to `thinking`, unchanged. Otherwise Send
+  swaps the composer's central slot to the **Review** step (§5) — Knowie and
+  the question stay fixed, only the content inside the slot changes.
 - **Type instead** and **Skip for now** are plain discreet text options
   (underlined, never filled CTAs), always visible from `concept_idle` (and
   reachable while recording/paused via the same footer), never requiring the
-  permission primer again.
+  permission primer again. They're hidden (not removed, so the footer never
+  changes height) once Review is showing, since neither applies after Send.
 
 ---
 

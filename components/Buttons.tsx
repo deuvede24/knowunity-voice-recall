@@ -45,16 +45,25 @@ export function TextButton({ className = "", ...props }: ButtonProps) {
   );
 }
 
-/** Round icon-only button — e.g. exit X, pause, discard, send. */
+/**
+ * Round icon-only button — e.g. exit X, pause, discard, send.
+ * `size="lg"` (56px) is for controls that need a roomier tap target (e.g.
+ * the recall composer's Review actions); `"xl"` (60px) is the same idea
+ * sized up slightly further (the recall composer's Recording/Paused
+ * controls); default `"md"` (44px, the spec minimum) is unchanged for every
+ * other existing usage.
+ */
 export function IconButton({
   className = "",
+  size = "md",
   ...props
-}: ButtonProps) {
+}: ButtonProps & { size?: "md" | "lg" | "xl" }) {
+  const sizeClass = size === "xl" ? "h-[60px] w-[60px]" : size === "lg" ? "h-14 w-14" : "h-11 w-11";
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}
       transition={snappy}
-      className={`flex h-11 w-11 items-center justify-center rounded-full ${className}`}
+      className={`flex items-center justify-center rounded-full ${sizeClass} ${className}`}
       {...props}
     />
   );

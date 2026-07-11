@@ -27,21 +27,19 @@ import { gentle } from "@/lib/motion";
 import { ConceptHeader } from "./ConceptHeader";
 import { BottomActionBar } from "./BottomActionBar";
 import { RecordingArea } from "./RecordingArea";
-import { ConfirmationLayer } from "./ConfirmationLayer";
 import { ThinkingCard } from "./ThinkingCard";
 import { CoachingCard } from "./CoachingCard";
 import { TypeInsteadSheet } from "./TypeInsteadSheet";
 import { SummaryScreen } from "./SummaryScreen";
 
 type Stage =
-  | "recording" // idle | recording | paused handled inside RecordingArea
-  | "confirmation"
+  | "recording" // idle | recording | paused | review handled inside RecordingArea
   | "thinking"
   | "coaching"
   | "skipped"
   | "summary";
 
-type RecordingPhase = "idle" | "recording" | "paused";
+type RecordingPhase = "idle" | "recording" | "paused" | "review";
 
 interface AttemptOutcome {
   band: CoachingBand;
@@ -126,7 +124,7 @@ export function RecallFlow() {
     if (confirmationMode === "none") {
       setStage("thinking");
     } else {
-      setStage("confirmation");
+      setRecordingPhase("review");
     }
   }
 
@@ -202,15 +200,15 @@ export function RecallFlow() {
             onExit={() => router.push("/")}
           />
 
-          {/* One persistent ConceptHeader instance across recording → confirmation
+          {/* One persistent ConceptHeader instance across recording → review
               → thinking → coaching (rather than two conditionally-mounted
               blocks) so React keeps the same DOM node instead of unmounting
               and remounting it — that remount was one source of the layout
-              jump between confirmation and the surrounding stages. */}
+              jump between review and the surrounding stages. */}
           {stage !== "skipped" && stage !== "summary" && (
             <ConceptHeader
               primaryText={
-                stage === "confirmation" ? (
+                stage === "recording" && recordingPhase === "review" ? (
                   confirmationMode === "headline" ? (
                     "You explained"
                   ) : (
@@ -230,13 +228,13 @@ export function RecallFlow() {
                   ? attempt.expression
                   : stage === "thinking"
                     ? "thinking"
-                    : stage === "confirmation"
+                    : recordingPhase === "review"
                       ? "approving"
                       : "standby"
               }
               animateBob={stage === "thinking"}
               reminder={
-                isRetry && stage === "recording"
+                isRetry && stage === "recording" && recordingPhase !== "review"
                   ? (attempt.reminder ?? "Reminder: give it another go.")
                   : undefined
               }
@@ -276,23 +274,41 @@ export function RecallFlow() {
                     onChangeConfirmationMode={handleModeChange}
                     showDiscoveryDot={showDiscoveryDot}
                     onModeSelectorOpened={handleModeSelectorOpened}
+                    transcript={concept.transcript}
+                    headline={concept.headline}
                     onStart={() => setRecordingPhase("recording")}
                     onPause={() => setRecordingPhase("paused")}
                     onResume={() => setRecordingPhase("recording")}
                     onDiscard={() => setRecordingPhase("idle")}
                     onSend={proceedAfterAnswer}
+                    onStartOver={() => setRecordingPhase("idle")}
+                    onConfirm={() => setStage("thinking")}
                   />
                 </div>
 
                 <BottomActionBar>
-                  <div className="flex items-center justify-center gap-400">
+                  {/* Type instead / Skip only make sense before Send — kept
+                      mounted (just invisible) during Review so the footer's
+                      reserved height never changes and the composer above
+                      never shifts. */}
+                  <div
+                    className={`flex items-center justify-center gap-400 ${
+                      recordingPhase === "review" ? "invisible" : ""
+                    }`}
+                    aria-hidden={recordingPhase === "review"}
+                  >
                     <TextButton
                       onClick={() => setTypeSheetOpen(true)}
                       className="underline"
+                      tabIndex={recordingPhase === "review" ? -1 : undefined}
                     >
                       Type instead
                     </TextButton>
-                    <TextButton onClick={handleSkip} className="underline">
+                    <TextButton
+                      onClick={handleSkip}
+                      className="underline"
+                      tabIndex={recordingPhase === "review" ? -1 : undefined}
+                    >
                       Skip for now
                     </TextButton>
                   </div>
@@ -313,18 +329,6 @@ export function RecallFlow() {
                   setTypeSheetOpen(false);
                   setStage("thinking");
                 }}
-              />
-            )}
-
-            {stage === "confirmation" && (
-              <ConfirmationLayer
-                key="confirmation-stage"
-                mode={
-                  confirmationMode === "none" ? "transcript" : confirmationMode
-                }
-                transcript={concept.transcript}
-                headline={concept.headline}
-                onContinue={() => setStage("thinking")}
               />
             )}
 
