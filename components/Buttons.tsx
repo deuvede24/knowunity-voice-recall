@@ -58,7 +58,7 @@ export function IconButton({
   size = "md",
   ...props
 }: ButtonProps & { size?: "md" | "lg" | "xl" }) {
-  const sizeClass = size === "xl" ? "h-[60px] w-[60px]" : size === "lg" ? "h-14 w-14" : "h-11 w-11";
+  const sizeClass = size === "xl" ? "h-[64px] w-[64px]" : size === "lg" ? "h-14 w-14" : "h-11 w-11";
   return (
     <motion.button
       whileTap={{ scale: 0.92 }}

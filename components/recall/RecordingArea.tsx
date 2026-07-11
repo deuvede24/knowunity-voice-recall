@@ -86,7 +86,7 @@ function PrimaryButton({
       animate={isLive && !reduceMotion ? { scale: [1, 1.08, 1] } : { scale: 1 }}
       transition={isLive && !reduceMotion ? { duration: 1, repeat: Infinity, repeatType: "reverse" } : snappy}
       aria-label={phase === "idle" ? "Tap to speak" : phase === "recording" ? "Pause recording" : "Resume recording"}
-      className={`flex h-[86px] w-[86px] items-center justify-center rounded-full ${
+      className={`flex h-22.5 w-22.5 items-center justify-center rounded-full ${
         isLive ? "bg-error-bold text-ink-primary" : "bg-interactive-primary text-interactive-onprimary"
       }`}
     >
@@ -307,18 +307,18 @@ export function RecordingArea({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={soft}
-                    className="flex -translate-y-5 items-center justify-center gap-400"
+                    className="flex w-46 -translate-y-5 items-center justify-between"
                   >
                     <ControlIcon
                       size="xl"
-                      icon={<DiscardIcon size={26} />}
+                      icon={<DiscardIcon size={28} />}
                       label="Discard"
                       ariaLabel="Discard and start again"
                       onClick={onDiscard}
                     />
                     <ControlIcon
                       size="xl"
-                      icon={<SendIcon size={26} />}
+                      icon={<SendIcon size={28} />}
                       label="Send"
                       ariaLabel="Send recording"
                       onClick={onSend}
