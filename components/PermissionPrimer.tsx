@@ -29,22 +29,19 @@ export function PermissionPrimer({
         Welcome to Voice Active Recall
       </h1>
 
-      <p className="mt-200 text-body-m font-semibold text-ink-primary">
-        Say it out loud. Know it for real.
+      <p className="mt-300 text-body-m font-semibold text-ink-primary">
+        Voice Recall uses your microphone so you can explain concepts out loud
+        in your own words.
       </p>
 
-      <div className="mt-400 flex flex-col gap-200">
-        <p className="text-body-s text-ink-secondary">
-          Voice Recall uses your microphone so you can explain concepts out loud
-          in your own words.
+      <div className="mt-400 flex flex-col gap-150">
+        <p className="text-caption-m text-ink-secondary">
+          Your microphone is only used while recording.
         </p>
 
-        <p className="text-body-s text-ink-secondary">
-          We need microphone access to get started.
-        </p>
-
-        <p className="text-body-s text-ink-secondary">
-          Knowie will show you a transcript first. You can change this later.
+        <p className="text-caption-m text-ink-secondary">
+          Knowie will show your transcript before coaching. You can change
+          this later.
         </p>
       </div>
 
