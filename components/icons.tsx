@@ -70,6 +70,16 @@ export function SparkleIcon(props: IconProps) {
   );
 }
 
+/** Lightbulb — the retry hint's "quiet idea from Knowie" marker. */
+export function BulbIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M12 3a6 6 0 0 0-3.6 10.8c.6.45.95 1.02 1.1 1.7h5c.15-.68.5-1.25 1.1-1.7A6 6 0 0 0 12 3Z" />
+      <path d="M9.5 19h5M9 16.5h6" />
+    </svg>
+  );
+}
+
 export function BubbleIcon(props: IconProps) {
   return (
     <svg {...base(props)}>

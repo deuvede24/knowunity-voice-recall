@@ -7,7 +7,7 @@ import { PhoneShell } from "@/components/PhoneShell";
 import { RecallTopBar } from "@/components/TopBar";
 import { PermissionPrimer } from "@/components/PermissionPrimer";
 import { TextButton } from "@/components/Buttons";
-import { CONCEPTS } from "@/lib/concepts";
+import { CONCEPTS, MILESTONE_MESSAGES } from "@/lib/concepts";
 import type {
   CoachingBand,
   ConceptOutcomeStatus,
@@ -27,15 +27,15 @@ import { gentle } from "@/lib/motion";
 import { ConceptHeader } from "./ConceptHeader";
 import { BottomActionBar } from "./BottomActionBar";
 import { RecordingArea } from "./RecordingArea";
-import { ThinkingCard } from "./ThinkingCard";
 import { CoachingCard } from "./CoachingCard";
 import { TypeInsteadSheet } from "./TypeInsteadSheet";
 import { SummaryScreen } from "./SummaryScreen";
 
 type Stage =
   | "recording" // idle | recording | paused | review handled inside RecordingArea
-  | "thinking"
+  | "thinking" // "Let me think..." replaces the question inside the same persistent bubble — no separate screen
   | "coaching"
+  | "milestone" // brief encouragement inside the same bubble after Q2/Q3, auto-advances
   | "skipped"
   | "summary";
 
@@ -158,7 +158,18 @@ export function RecallFlow() {
     return () => clearTimeout(t);
   }, [stage]);
 
+  // Milestone messages (after Q2/Q3 only, per MILESTONE_MESSAGES) auto-advance
+  // the same way Thinking auto-advances into Coaching — no extra tap. Visible
+  // just long enough to comfortably read (~0.8-1.2s) before moving on.
+  useEffect(() => {
+    if (stage !== "milestone") return;
+    const t = setTimeout(advanceToNextConceptOrSummary, 1100);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stage]);
+
   const attempt = getAttemptOutcome(conceptIndex, isRetry);
+  const milestone = MILESTONE_MESSAGES[conceptIndex];
 
   function handleCoachingAction() {
     if (attempt.band === "gotIt") {
@@ -166,7 +177,11 @@ export function RecallFlow() {
         ...o,
         [concept.id]: concept.id === "furigana" ? "practising" : "gotIt",
       }));
-      advanceToNextConceptOrSummary();
+      if (milestone) {
+        setStage("milestone");
+      } else {
+        advanceToNextConceptOrSummary();
+      }
     } else {
       setIsRetry(true);
       setRecordingPhase("idle");
@@ -201,38 +216,58 @@ export function RecallFlow() {
           />
 
           {/* One persistent ConceptHeader instance across recording → review
-              → thinking → coaching (rather than two conditionally-mounted
-              blocks) so React keeps the same DOM node instead of unmounting
-              and remounting it — that remount was one source of the layout
-              jump between review and the surrounding stages. */}
+              → thinking → milestone → coaching (rather than several
+              conditionally-mounted blocks) so React keeps the same DOM node
+              instead of unmounting and remounting it — that remount was one
+              source of the layout jump between stages. Thinking and
+              milestone messages render inside this same bubble instead of a
+              separate screen, per this pass's "stable conversational area." */}
           {stage !== "skipped" && stage !== "summary" && (
             <ConceptHeader
               primaryText={
-                stage === "recording" && recordingPhase === "review" ? (
-                  confirmationMode === "headline" ? (
-                    "You explained"
-                  ) : (
-                    "Here's what I heard"
-                  )
+                stage === "thinking" ? (
+                  <p className="text-body-m font-semibold text-ink-primary">Let me think...</p>
+                ) : stage === "milestone" && milestone ? (
+                  <>
+                    <p className="text-headline-s font-black text-ink-primary">
+                      {milestone.title}
+                    </p>
+                    <p className="text-body-s text-ink-secondary">{milestone.body}</p>
+                  </>
+                ) : stage === "recording" && recordingPhase === "review" ? (
+                  <p className="text-body-m font-semibold text-ink-primary">
+                    {confirmationMode === "headline" ? "You explained" : "Here's what I heard"}
+                  </p>
                 ) : (
                   <>
-                    Explain in your own words:{" "}
-                    <span className="font-semibold text-ink-primary">
+                    {/* Supporting instruction (secondary emphasis) above the
+                        main concept (visual focus) — same header/caption
+                        hierarchy idea as header.svg, adapted to our own
+                        content order rather than copied literally. */}
+                    <p className="text-caption-m text-ink-secondary">
+                      Explain in your own words
+                    </p>
+                    <p className="text-headline-s font-black text-ink-primary">
                       {concept.term}
-                    </span>
+                    </p>
                   </>
                 )
               }
               expression={
-                stage === "coaching"
-                  ? attempt.expression
-                  : stage === "thinking"
-                    ? "thinking"
-                    : recordingPhase === "review"
-                      ? "approving"
-                      : "standby"
+                stage === "milestone"
+                  ? "excited"
+                  : stage === "coaching"
+                    ? attempt.expression
+                    : stage === "thinking"
+                      ? "thinking"
+                      : recordingPhase === "review"
+                        ? "approving"
+                        : "standby"
               }
               animateBob={stage === "thinking"}
+              animateBounce={
+                stage === "milestone" || (stage === "coaching" && attempt.band === "gotIt")
+              }
               reminder={
                 isRetry && stage === "recording" && recordingPhase !== "review"
                   ? (attempt.reminder ?? "Reminder: give it another go.")
@@ -332,6 +367,10 @@ export function RecallFlow() {
               />
             )}
 
+            {/* Thinking has no content of its own — "Let me think..."
+                replaces the question inside the persistent ConceptHeader
+                bubble above, so this stage just needs to exist for
+                AnimatePresence's fade timing, not render anything. */}
             {stage === "thinking" && (
               <motion.div
                 key="thinking-stage"
@@ -339,9 +378,19 @@ export function RecallFlow() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="absolute inset-0 flex flex-col"
-              >
-                <ThinkingCard />
-              </motion.div>
+              />
+            )}
+
+            {/* Milestone messages likewise live entirely in the persistent
+                bubble above — no second bubble/screen here either. */}
+            {stage === "milestone" && (
+              <motion.div
+                key="milestone-stage"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 flex flex-col"
+              />
             )}
 
             {stage === "coaching" && (

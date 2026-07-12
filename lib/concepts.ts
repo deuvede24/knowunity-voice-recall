@@ -78,3 +78,13 @@ export const CONCEPTS: Concept[] = [
     demoResolution: "gotItFirstTry",
   },
 ];
+
+// Conversational milestone messages — shown briefly inside the persistent
+// speech bubble after Continue on a "gotIt" coaching card, before
+// auto-advancing to the next concept. Keyed by the concept index being left
+// (index 1 = after Q2, index 2 = after Q3); indices 0 and 3 (Q1/Q4)
+// intentionally have no entry, so they advance directly with no milestone.
+export const MILESTONE_MESSAGES: Record<number, { title: string; body: string }> = {
+  1: { title: "Great job!", body: "Two more to go." },
+  2: { title: "Last one!", body: "You've got this." },
+};
