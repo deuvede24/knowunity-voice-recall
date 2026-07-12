@@ -66,7 +66,7 @@ export function KnowieInviteSheet({
             onClick={onAccept}
             whileTap={{ scale: 0.96 }}
             transition={snappy}
-            className={`min-h-12 w-full rounded-full bg-interactive-primary px-400 py-300 text-body-s font-semibold text-interactive-onprimary ${CTA_SHADOW}`}
+            className={`min-h-12 w-full rounded-full bg-success-bold px-400 py-300 text-body-s font-semibold text-success-onbold ${CTA_SHADOW}`}
           >
             {isReturning ? "Let's do it" : "Let's try it"}
           </motion.button>
