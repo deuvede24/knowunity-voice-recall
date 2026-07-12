@@ -1,0 +1,41 @@
+/* iconSlot */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 0px;
+gap: 6.23px;
+
+position: relative;
+width: 18.68px;
+height: 18.68px;
+
+
+
+/* calendar
+
+calendar, date, booking
+*/
+
+width: 18.68px;
+height: 18.68px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 1;
+
+
+/* Icon (Stroke) */
+
+position: absolute;
+left: 8.33%;
+right: 8.33%;
+top: 4.17%;
+bottom: 4.17%;
+
+background: #2B7FFF;
+

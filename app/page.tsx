@@ -48,10 +48,10 @@ export default function TopicScreen() {
   }, []);
 
   function enterRecall() {
-     if (showMicDot) {
-    setHasSeenEntryMicDot();
-    setShowMicDot(false);
-  }
+    if (showMicDot) {
+      setHasSeenEntryMicDot();
+      setShowMicDot(false);
+    }
 
     router.push("/recall");
   }
@@ -60,45 +60,65 @@ export default function TopicScreen() {
     <PhoneShell>
       <TopicTopBar />
 
-      <main className="flex flex-1 flex-col gap-600 px-400 pt-400 pb-600">
-        <header className="flex flex-col gap-100">
-          <h1 className="text-center text-headline-xl font-black text-ink-primary">Japanese</h1>
-          <p className="text-center text-caption-m text-ink-secondary">
-            Due in 1 day · Grade goal 2
+      <main className="flex flex-1 flex-col gap-400 px-400 pt-400 pb-400">
+        <header className="flex flex-col gap-150">
+          {/* Slightly below the headline-xl token (44px) so the title reads
+              closer to the real app's hierarchy while staying the clear
+              focal point of the screen — see CLAUDE.md polish-pass notes. */}
+          <h1 className="text-center text-[36px] font-black leading-9.5 tracking-[-0.5px] text-ink-primary">
+            Japanese
+          </h1>
+          <p className="flex items-center justify-center gap-300 text-caption-m text-ink-secondary">
+            <span className="flex items-center gap-100">
+              {/* eslint-disable-next-line @next/next/no-img-element -- local SVG icon, no optimization needed */}
+              <img src="/images/calendar.svg" alt="" width={16} height={16} />
+              3 Weeks
+            </span>
+            <span className="flex items-center gap-100">
+              {/* eslint-disable-next-line @next/next/no-img-element -- local SVG icon, no optimization needed */}
+              <img src="/images/grade.svg" alt="" width={16} height={16} />
+              Grade goal: 2
+            </span>
           </p>
         </header>
 
-        <div className="flex items-center justify-between gap-300 rounded-800 bg-surface px-400 py-300">
-          <div className="flex items-center gap-300"> 
-            <span className="text-body-m font-semibold text-ink-primary">
-              Japanese Writing System
-            </span>
-            <BookIcon size={20} className="shrink-0 text-purple-bold" />
-          </div>
-          {/* Plain button + CSS active state, not motion.button/whileTap: on a
-              real phone (tested over the LAN IP, not desktop localhost)
-              Motion's pointer-event-driven tap gesture was swallowing the
-              tap before the native click could fire. A native button with a
-              CSS :active transform doesn't intercept the touch sequence. */}
-          <button
-            type="button"
-            onClick={enterRecall}
-            aria-label="Practise Voice Recall for this topic"
-            className="relative flex h-11 w-11 shrink-0 items-center justify-center text-purple-bold transition-transform duration-100 active:scale-90"
-          >
-            <MicIcon size={24} />
-            {showMicDot && (
-              <motion.span
-                aria-hidden
-                className="absolute right-1 top-1 h-2 w-2 rounded-full bg-purple-bold"
-                initial={{ scale: 1 }}
-                animate={{ scale: [1, 1.7, 1] }}
-                transition={{ duration: 0.5, delay: 0.35, ease: "easeInOut" }}
-              />
-            )}
-          </button>
-        </div>
+        <div className="mx-100 flex items-center justify-between gap-300 rounded-800 bg-surface px-400 py-200">
+          <span className="text-body-s font-semibold text-ink-primary">
+            Japanese Studies
+          </span>
 
+          <div className="flex shrink-0 items-center gap-200">
+            <BookIcon size={18} className="shrink-0 text-purple-bold" />
+
+            {/* Plain button + CSS active state, not motion.button/whileTap: on a
+        real phone (tested over the LAN IP, not desktop localhost)
+        Motion's pointer-event-driven tap gesture was swallowing the
+        tap before the native click could fire. A native button with a
+        CSS :active transform doesn't intercept the touch sequence. */}
+            <button
+              type="button"
+              onClick={enterRecall}
+              aria-label="Practise Voice Recall for this topic"
+              className="relative flex h-11 w-11 shrink-0 items-center justify-center text-purple-bold transition-transform duration-100 active:scale-90"
+            >
+              <MicIcon size={24} />
+
+              {showMicDot && (
+                <motion.span
+                  aria-hidden
+                  className="absolute right-1 top-1 h-2 w-2 rounded-full bg-purple-bold"
+                  initial={{ scale: 1 }}
+                  animate={{ scale: [1, 1.7, 1] }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.35,
+                    ease: "easeInOut",
+                  }}
+                />
+              )}
+            </button>
+          </div>
+        </div>
         <CheckpointPath checkpoints={CHECKPOINTS} glowIndex={0} />
       </main>
 

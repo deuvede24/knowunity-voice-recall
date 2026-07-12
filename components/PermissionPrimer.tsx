@@ -23,13 +23,13 @@ export function PermissionPrimer({
       transition={gentle}
       className="flex flex-1 flex-col items-center justify-center px-400 text-center"
     >
-      <Knowie expression="micro" size="lg" className="mb-600" />
+      <Knowie expression="micro" size="lg" className="mb-400" />
 
-      <h1 className="text-headline-s font-black text-ink-primary">
+      <h1 className="max-w-70 text-headline-s font-black leading-6 text-ink-primary">
         Welcome to Voice Active Recall
       </h1>
 
-      <p className="mt-300 text-body-m font-semibold text-ink-primary">
+      <p className="mt-200 text-body-m font-semibold text-ink-primary">
         Say it out loud. Know it for real.
       </p>
 

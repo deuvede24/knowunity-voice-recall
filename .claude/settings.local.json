@@ -60,7 +60,20 @@
       "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_modeselector.js)",
       "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_returning.js)",
       "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_polish.js)",
-      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_recall_polish.js)"
+      "Bash(NODE_PATH=/home/dani/.npm/_npx/e41f203b7505f1fb/node_modules node verify_recall_polish.js)",
+      "Bash(npx --version)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3001/)",
+      "Bash(google-chrome --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=390,844 --screenshot=/tmp/claude-1000/-home-dani-knowunity-sprint/66579f87-7c7e-4590-b5a2-d20ff3c9df0d/scratchpad/shots/entry.png http://localhost:3000/)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(google-chrome --headless --disable-gpu --no-sandbox --window-size=390,844 --dump-dom http://localhost:3000/)",
+      "Bash(node *)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --hide-scrollbars --window-size=800,1000 --screenshot=/tmp/claude-1000/-home-dani-knowunity-sprint/66579f87-7c7e-4590-b5a2-d20ff3c9df0d/scratchpad/shots/debug5.png http://localhost:3000/)",
+      "Bash(google-chrome --headless=new --disable-gpu --no-sandbox --hide-scrollbars --virtual-time-budget=3000 --window-size=390,844 --screenshot=/tmp/claude-1000/-home-dani-knowunity-sprint/66579f87-7c7e-4590-b5a2-d20ff3c9df0d/scratchpad/shots/debug7.png http://localhost:3000/)",
+      "Bash(google-chrome --headless=old --disable-gpu --no-sandbox --hide-scrollbars --window-size=390,844 --screenshot=/tmp/claude-1000/-home-dani-knowunity-sprint/66579f87-7c7e-4590-b5a2-d20ff3c9df0d/scratchpad/shots/debug8.png http://localhost:3000/)",
+      "Read(//home/dani/.cache/ms-playwright/**)",
+      "Bash(find / -maxdepth 6 -iname \"node_modules\" -path \"*playwright*\")",
+      "Bash(npm ls *)",
+      "Bash(find / -maxdepth 8 -iname \"playwright\" -type d)"
     ]
   }
 }

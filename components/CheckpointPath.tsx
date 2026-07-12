@@ -47,7 +47,7 @@ export function CheckpointPath({
                 {index === glowIndex && (
                   <motion.div
                     aria-hidden
-                    className="pointer-events-none absolute -inset-3 rounded-full bg-purple-bold"
+                    className="pointer-events-none absolute -inset-3 rounded-full bg-pro-bold"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: [0, 0.35, 0] }}
                     transition={{ duration: 0.6, delay: 0.15, ease: "easeInOut" }}
@@ -55,12 +55,12 @@ export function CheckpointPath({
                 )}
                 <div
                   className={`flex h-[88px] w-[88px] items-center justify-center rounded-full ${
-                    isActive ? "bg-purple-bold" : "bg-white/10"
+                    isActive ? "bg-pro-bold" : "bg-white/10"
                   }`}
                 >
                   <ChecklistIcon
                     size={44}
-                    className={isActive ? "text-ink-primary" : "text-purple-bold"}
+                    className={isActive ? "text-ink-primary" : "text-pro-bold"}
                   />
                 </div>
               </div>

@@ -20,17 +20,17 @@ const MODE_OPTIONS: {
   {
     mode: "transcript",
     title: "Transcript — what Knowie heard",
-    description: "Full text of what Knowie heard, before coaching.",
+    description: "Review the full transcript before coaching.",
   },
   {
     mode: "headline",
     title: "Headline — short summary",
-    description: "One line summarising what you explained.",
+    description: "Review a one-line summary before coaching.",
   },
   {
     mode: "none",
     title: "None — go straight to coaching",
-    description: "No confirmation layer. Send goes straight to Thinking.",
+    description: "Skip the review step and continue to coaching.",
   },
 ];
 
@@ -80,16 +80,16 @@ export function ModeSelector({
       </button>
 
       <BottomSheet open={open} onDismiss={() => setOpen(false)}>
-        <h2 className="mb-400 text-body-m font-semibold text-ink-primary">
+        <h2 className="mb-600 text-body-m font-semibold text-ink-primary">
           Review before feedback
         </h2>
-        <div className="flex flex-col gap-300">
+        <div className="flex flex-col gap-400">
           {MODE_OPTIONS.map((option) => (
             <label
               key={option.mode}
-              className="flex cursor-pointer items-start justify-between gap-300 rounded-800 bg-app-bg px-300 py-300"
+              className="flex cursor-pointer items-start justify-between gap-300 rounded-800 bg-app-bg px-400 py-400"
             >
-              <span className="flex flex-col gap-050">
+              <span className="flex flex-col gap-100">
                 <span className="text-body-s font-semibold text-ink-primary">
                   {option.title}
                 </span>
@@ -108,7 +108,7 @@ export function ModeSelector({
             </label>
           ))}
         </div>
-        <div className="mt-400">
+        <div className="mt-600">
           <PrimaryButton onClick={save}>Save</PrimaryButton>
         </div>
       </BottomSheet>
