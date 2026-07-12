@@ -51,7 +51,7 @@ Reference screenshots are for layout and interaction only.
 - Read `sprint-context.md`, `design.md`, `prototype-rules.md`, and `motion-guide.md` before building screens.
 - Reuse existing Knowunity patterns from `design.md` and `reference/` before inventing a new layout.
 - Keep Voice Recall native to the existing Exam Plan / Topic flow; do not turn it into a separate chatbot.
-- Preserve the two entry points: persistent Topic mic next to the book/summary icon, plus optional Knowie invitation when the existing learning flow signals struggle. (As of this pass, the Knowie-invitation entry point — `KnowieInviteSheet` — is implemented but not wired to any visible control; see SPEC.md §8/§16. Keep the component intact for a future trigger rather than deleting it.)
+- Preserve the two entry points: persistent Topic mic next to the book/summary icon, plus the Knowie invitation when the existing learning flow signals struggle. (`KnowieInviteSheet` is wired and live: it opens automatically on the Topic screen a short beat after load, via an attention-cue sequence — see SPEC.md §8/§16. There is still no real struggle-detection trigger behind it, per prototype scope.)
 - Build the full recall loop: entry → first-time mic permission → concept prompt → recording controls → pre-feedback confirmation → Knowie thinking → coaching response → retry/skip/next concept → summary.
 - Keep the can't-speak text fallback reachable in one tap and able to complete the same loop end to end.
 - Keep voice and text equal in dignity: same prompt, same mocked processing, same coaching quality, same recovery logic.
@@ -81,6 +81,7 @@ Reference screenshots are for layout and interaction only.
 - Motion recipes: `motion-guide.md`
 - Reference screenshots: `reference/`
 - Images / Knowie assets: `public/images/`
+- User-testing fix list: `feedback.md` — my prioritized list of fixes from user testing. Read it before making fixes. Change what it lists. Protect anything it marks as working — don't touch it as a side effect of an unrelated fix.
 
 ## Wireflow
 

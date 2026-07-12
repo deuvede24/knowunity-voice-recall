@@ -1,10 +1,13 @@
 # Knowunity — Voice Recall
 
-**Status:** Module 3 complete → entering Module 4 (Claude Code prototyping)
+**Status:** Module 3 complete → Module 4 (Claude Code prototyping) underway.
+The full recall loop, both entry points, and several visual-polish passes are
+now built — see `PROGRESS.md` for the session-by-session build log and
+`SPEC.md` for current implementation detail.
 
 **Decision state:** Module 2 principles validated. Module 3 Task 1 (product
 architecture) and Task 2 (key screen exploration) are both closed. This
-document is now the reference file for Module 4 prototyping in Claude Code.
+document remains the reference file for Module 4 prototyping in Claude Code.
 
 **Purpose:** Living product context for Module 4 prototyping.
 

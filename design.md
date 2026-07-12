@@ -39,7 +39,7 @@
 | `feedback/error/onbold` | `#2a0808` | text on error |
 | `accent/blue/bold` | `#5fa0fc` | info / default chip |
 | `accent/blue/onbold` | `#06173b` | text on info |
-| `pro/bold` | `#f5b53d` | "Pro" chip background (yellow/gold accent) |
+| `pro/bold` | `#f5b53d` | "Pro" chip background (yellow/gold accent); also the Entry screen's checkpoint-node accent (`components/CheckpointPath.tsx` — active-node fill, upcoming-node icon tint, and the completion glow), swapped over from the recovered purple token in a later visual-polish pass |
 | `pro/onbold` | `#2a1d04` | text on the Pro chip |
 | `accent/coral/bold` | `#fb7e5b` | **decided: use for "partial/hint" recall state** — sits between success green and error red, already used as a progress-indicator variant so it reads as "in progress," not "wrong" |
 | `accent/purple/bold` | `#8f7bdc` | **recovered, not in the original extraction** — sampled directly from the committed reference screenshots (progress-indicator "Primary" fill, Knowie name badge, discovery dot, selected-chip state all use this same purple). Confirmed with the product owner to use as the measured value since a live Figma lookup wasn't available when this gap was found. Treat as authoritative going forward. |
@@ -119,6 +119,12 @@ This is the full, authoritative list straight from the design system (numbered
 | 14 | `determined` | Focused, resolved |
 | 15–16 | *(empty — TBD)* | Not yet illustrated by the design team |
 
+> `micro` — an additional expression outside this 16-card set, added for the
+> mic-permission primer specifically (`/images/knowiePermission.svg`, "Knowie,
+> asking for microphone permission"). Not part of the official Homie Cards
+> export; kept separate from the table above since it isn't a Figma-sourced
+> mood, just the one-off permission-ask pose.
+
 > Earlier mentions of `excitedDance`, `clapping`, `wave`, and `superSad` were
 > from the brand marketing deck (a different, separate asset set used for
 > brand storytelling slides) — they are **not** part of this 16-card Homie
@@ -146,10 +152,12 @@ No new assets, no Lottie. Using only the existing `thinking` static image:
 - **Head movement**: CSS transform loop — gentle ±3° rotation + small
   vertical bob, looping while the mocked "thinking" delay runs (~1–1.5s per
   Prototype Rules).
-- **"Eyes changing" effect**: a soft crossfade between `thinking` and
-  `questioning` (both neutral/considering expressions) every ~800ms, instead
-  of trying to isolate and animate just the eyes. Simple, safe, no new
-  Figma work required, and reads as "processing / looking around."
+- **"Eyes changing" effect**: originally planned as a soft crossfade between
+  `thinking` and `questioning` (both neutral/considering expressions) every
+  ~800ms. **Not built** — SPEC.md §3 later confirmed no `questioning` asset
+  exists in `/public/images`, so the built "thinking" state (`ConceptHeader`'s
+  `animateBob`) is the head-bob loop only, no crossfade. Leaving this
+  original idea recorded here in case the asset is ever added.
 - If more polish is wanted later, a true isolated eye-blink would need going
   back into Figma to export the face-detail overlay layer specifically for
   `thinking` (several other expressions like `standby`/`approving` do have

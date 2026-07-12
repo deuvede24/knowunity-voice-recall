@@ -4,6 +4,79 @@ Status snapshots, most recent first. See SPEC.md for the full build spec.
 
 ---
 
+## Session — 2026-07-12: Documentation sync pass (no code changes)
+
+Read the current `app/`, `components/`, and `lib/` code end to end and
+reconciled `CLAUDE.md`, `SPEC.md`, `design.md`, and `sprint-context.md`
+against it. No product/behavior decisions were made and no code was touched
+— this was purely correcting docs that had drifted behind several rounds of
+implementation and polish since they were last updated.
+
+**What was out of date and corrected:**
+- **Entry B is now wired, docs still said otherwise.** `KnowieInviteSheet`
+  auto-opens on the Topic screen via an attention-cue sequence (checkpoint
+  glow → mic-dot pulse → sheet), with first-time/returning copy variants —
+  this was built across the 2026-07-11 and 2026-07-12 sessions below, but
+  `CLAUDE.md`, and SPEC.md §2/§3/§4/§8/§14/§16, still described it as an
+  unwired, "Preview contextual entry"-gated component. All five updated to
+  describe the current auto-trigger behavior.
+- **Furigana no longer skips.** SPEC.md §9 described concept 3 as
+  "Let's build on that → skip." In the actual code it now retries into a
+  full `gotIt`-tier coaching response, but `RecallFlow.handleCoachingAction`
+  hardcodes its recorded outcome to `"practising"` so the summary still
+  shows it as evidence-in-progress. The generic "Skip for now" path (still
+  available on any concept) is a separate, now-silent action — it advances
+  with no beat and no recorded outcome, so the concept just doesn't appear
+  in the summary; the `"skipped"` stage/copy is dead code. SPEC.md §9/§11/§4
+  rewritten to describe this accurately.
+- **Undocumented milestone-message feature.** `lib/concepts.ts`'s
+  `MILESTONE_MESSAGES` (a brief "Great job! Two more to go." / "Last one!
+  You've got this." beat after concepts 2 and 3) existed in code with no
+  mention in any doc. Added to SPEC.md §9/§10 and the state-machine diagram.
+- **Concept Evidence summary copy was wrong.** SPEC.md §11 said every row
+  reads "your own words." The built `SummaryScreen` actually shows a
+  per-concept label (e.g. "grammar → verb endings"), filters out any concept
+  with no recorded outcome, and has a whole unmentioned empty state
+  ("Nothing saved yet."). Corrected.
+- **Checkpoint accent color.** SPEC.md §16 still said the active checkpoint
+  node is `purple-bold`; a later visual-polish pass swapped it to
+  `pro-bold` (gold) to match the real app. Corrected in SPEC.md and noted
+  in design.md's color table.
+- **Minor content drift**: Katakana's coaching expression is `giggling` in
+  code, not `approving` as SPEC.md's table said; "Almost there"'s icon
+  renders as a bullseye/target glyph, not a literal sparkle; recording
+  control touch targets are 90px (primary) / 64px (Recording, Paused) / 56px
+  (Review) — SPEC.md §6 previously stated a blanket 90×80/56px that didn't
+  match; the mocked "thinking" delay is 1.3s, not "~1.2s"; the permission
+  primer's quoted copy in SPEC.md §7 didn't match either the old or current
+  built copy — replaced with the actual current three-tier copy (see
+  below). All corrected in place.
+- **`PermissionPrimer`'s copy/hierarchy pass.** SPEC.md §16 and §7 described
+  the original 2026-07-09 visual-only fix. Since then the copy was rewritten
+  into an explicit three-tier hierarchy (dominant heading / lighter main
+  message / quiet grey supporting copy) and the old tagline ("Say it out
+  loud. Know it for real.") was dropped. Docs updated to quote the current
+  copy.
+- **`design.md` gaps**: the "official complete list" of Knowie expressions
+  didn't include `micro` (used by the permission primer, a real asset in
+  `/public/images/`), and the planned `thinking`/`questioning` crossfade was
+  still described as the build target even though SPEC.md §3 had already
+  recorded that it was dropped (no `questioning` asset exists) — code
+  confirms only the bob loop was built. Both fixed.
+- **`sprint-context.md`**: only the top status line was stale ("entering
+  Module 4" when Module 4 is now well underway) — everything else in that
+  document is product strategy/history, not implementation status, and
+  didn't need correction.
+
+**What was NOT changed:** no component, route, or lib file was touched. The
+`SPEC.md` §14 checklist had a handful of boxes flipped to `[x]` where the
+current code statically and unambiguously satisfies them (e.g. Topic screen
+as start route, permission-primer gating, thinking delay) — items that need
+an actual runtime/device pass to confirm (full loop playthroughs, contrast
+audit) were left unchecked rather than assumed.
+
+---
+
 ## Session — 2026-07-11: Contextual Voice Recall invitation (Entry B replacement)
 
 Replaced the old, unwired Entry B prototype ("Fix Mistakes · 2nd miss" / "Yes,
