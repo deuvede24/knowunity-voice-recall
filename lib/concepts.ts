@@ -10,7 +10,7 @@ export const CONCEPTS: Concept[] = [
       "You use hiragana for native Japanese words and grammar bits, like verb endings and particles.",
     headline: "Hiragana used for native words and grammar.",
     firstAttemptBand: "almostThere",
-    firstAttemptExpression: "thinking",
+    firstAttemptExpression: "standby",
     firstAttemptCopy: {
       title: "Almost there,you're really close.",
       body: "You already explained that hiragana is used for native words. Now think about when you'd actually use it.",
