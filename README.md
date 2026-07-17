@@ -92,7 +92,7 @@ This is why the experience is retrieval-first. Coaching can still include clarif
 
 ---
 
-## 💜 Product vision
+## 🧭 Product vision
 
 Voice Recall isn't designed as a feature students use once. It's designed as an evolving retrieval experience that fits naturally into the study journey students already follow.
 
@@ -117,13 +117,13 @@ That context connects the experience in two complementary ways:
 
 Together, they make retrieval available without making it intrusive. Voice Recall isn't another destination inside the product — it becomes another way of interacting with the learning journey students already have.
 
-### 🎤 Entry A — practice with intention
+### <img src="public/images/micro-lila.svg" width="20" style="vertical-align:middle" /> Entry A — practice with intention
 
 A persistent microphone lives beside each topic, in the same place students already visit to review concepts. Today, tapping it starts a Voice Recall session immediately.
 
 A near-term refinement adds one lightweight step first: a quick view of previous Voice Recall activity for that topic, fed by the same retrieval summary students already receive after every session. Instead of asking students to remember what they skipped, the experience remembers it for them — letting them choose what to practise next: one prompt, several, the full set, or anything previously skipped. Not a dashboard, just a moment of intention before speaking.
 
-### 💜 Entry B — support when timing matters
+### <img src="public/images/mascotStandBy.svg" width="24" style="vertical-align:middle" /> Entry B — support when timing matters
 
 For first-time students, Entry B introduces the experience and guides them through microphone permissions before their first session. Once a student completes that first checkpoint, its role changes within the same session — the invitation stops explaining and simply offers another moment to practise, with a quieter visual presence instead of the first-time discovery cue.
 
