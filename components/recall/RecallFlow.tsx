@@ -163,7 +163,7 @@ export function RecallFlow() {
   // just long enough to comfortably read (~0.8-1.2s) before moving on.
   useEffect(() => {
     if (stage !== "milestone") return;
-    const t = setTimeout(advanceToNextConceptOrSummary, 1500);
+    const t = setTimeout(advanceToNextConceptOrSummary, 1400);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stage]);
