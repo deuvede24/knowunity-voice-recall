@@ -117,7 +117,7 @@ That context connects the experience in two complementary ways:
 
 Together, they make retrieval available without making it intrusive. Voice Recall isn't another destination inside the product — it becomes another way of interacting with the learning journey students already have.
 
-### <img src="public/images/micro-lila.svg" width="20" style="vertical-align:middle" /> Entry A — practice with intention
+### <img src="public/images/micro-lila.svg" width="26" style="vertical-align:middle" /> Entry A — practice with intention
 
 A persistent microphone lives beside each topic, in the same place students already visit to review concepts. Today, tapping it starts a Voice Recall session immediately.
 
