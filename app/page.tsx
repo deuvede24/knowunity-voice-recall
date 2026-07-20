@@ -71,8 +71,8 @@ export default function TopicScreen() {
           <p className="flex items-center justify-center gap-300 text-caption-m text-ink-secondary">
             <span className="flex items-center gap-100">
               {/* eslint-disable-next-line @next/next/no-img-element -- local SVG icon, no optimization needed */}
-              <img src="/images/calendar.svg" alt="" width={16} height={16} />
-              3 Weeks
+              <img src="/images/calendar.svg" alt="" width={16} height={16} />3
+              Weeks
             </span>
             <span className="flex items-center gap-100">
               {/* eslint-disable-next-line @next/next/no-img-element -- local SVG icon, no optimization needed */}
@@ -82,13 +82,17 @@ export default function TopicScreen() {
           </p>
         </header>
 
-        <div className="mx-100 flex items-center justify-between gap-300 rounded-800 bg-surface px-400 py-200">
-          <span className="text-body-s font-semibold text-ink-primary">
+        <div className="mx-0.5 flex items-center justify-between gap-300 rounded-800 bg-surface px-400 py-150">
+          <span className="text-[17px] font-semibold leading-6 text-ink-primary">
             Japanese Studies
           </span>
 
-          <div className="flex shrink-0 items-center gap-200">
-            <BookIcon size={18} className="shrink-0 text-purple-bold" />
+          <div className="relative flex self-stretch shrink-0 items-center gap-200">
+            <span
+              aria-hidden
+              className="absolute -left-300 -inset-y-1.5 w-px bg-white/10"
+            />
+            <BookIcon size={20} className="shrink-0 text-purple-bold" />
 
             {/* Plain button + CSS active state, not motion.button/whileTap: on a
         real phone (tested over the LAN IP, not desktop localhost)
